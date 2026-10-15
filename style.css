@@ -1,0 +1,128 @@
+/* Reseteo básico para evitar espacios raros */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Estilo del encabezado */
+header {
+    width: 100%;
+    background-color: #ffffff;
+    border-bottom: 2px solid #222; /* La línea negra de abajo */
+    padding: 15px 40px;
+}
+
+/* Contenedor flexible para alinear elementos a los lados */
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Estilo del logo y la huella */
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.brand-text {
+    font-size: 3rem; /* Tamaño grande como en tu diseño */
+    font-weight: bold;
+    color: #6b5b95; /* Tono violeta elegante */
+}
+
+.pata-icon {
+    font-size: 2.5rem;
+}
+
+/* Contenedor de los botones de la derecha */
+.header-right {
+    display: flex;
+    gap: 15px;
+}
+
+/* Estilo general para los botones */
+.btn {
+    text-decoration: none;
+    padding: 10px 22px;
+    border-radius: 8px; /* Bordes redondeados */
+    font-size: 1.1rem;
+    font-weight: bold;
+    background-color: #6b5b95; /* Color violeta a juego con el título */
+    color: #ffffff;
+    transition: background 0.2s ease;
+}
+
+/* Efecto al pasar el mouse por encima de los botones */
+.btn:hover {
+    background-color: #55477b;
+}
+/* Estilos para las pantallas de Login / Registro */
+.auth-body {
+    background-color: #f4f4f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.auth-card {
+    background: #ffffff;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.auth-card h2 {
+    color: #6b5b95;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+.btn-block {
+    width: 100%;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.auth-footer {
+    margin-top: 15px;
+    font-size: 0.9rem;
+}
+
+.auth-footer a {
+    color: #6b5b95;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.auth-footer a:hover {
+    text-decoration: underline;
+}
