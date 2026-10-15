@@ -4,24 +4,103 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Adopciones MIAU</title>
-    <!-- Conectamos tu archivo de estilos -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <header>
-        <div class="container header-content">
+    <!-- CABECERA PRINCIPAL -->
+    <header class="header-top">
+        <div class="header-content">
             <div class="brand">
                 <span class="brand-text">Adopciones MIAU</span>
                 <span class="pata-icon">🐾</span>
             </div>
             <div class="header-right">
-    <a href="login.html" class="btn btn-primary">Iniciar sesión</a>
-    <a href="registro.html" class="btn btn-secondary">Registrarse</a>
-        </div>
+                <a href="login.html" class="btn btn-primary">Iniciar sesión</a>
+                <a href="registro.html" class="btn btn-secondary">Registrarse</a>
+            </div>
         </div>
     </header>
 
-    <script src="script.js"></script>
+    <!-- BARRA DE NAVEGACIÓN CON ENLACES A CADA PÁGINA -->
+    <nav class="nav-bar">
+        <div class="nav-links">
+            <a href="index.html" class="nav-item active">Adoptame</a>
+            <a href="testimonios.html" class="nav-item">Testimonio</a>
+            <a href="faq.html" class="nav-item">Preguntas Frecuentes</a>
+            <a href="contacto.html" class="nav-item">Contacto</a>
+        </div>
+        <div class="search-box">
+            <input type="text" placeholder="Buscar...">
+            <button class="search-btn">🔍</button>
+        </div>
+    </nav>
+
+    <!-- BANNER DE BIENVENIDA -->
+    <section class="hero-banner">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>perritos lindos</h1>
+                <p>Te invitamos a que adoptes perritos</p>
+                <a href="https://wa.me/" target="_blank" class="btn-wsp">
+                    <span>💬</span> Contactanos
+                </a>
+            </div>
+            <div class="hero-image">
+                <img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?q=80&w=600" alt="Perritos">
+            </div>
+        </div>
+    </section>
+
+    <!-- CATÁLOGO DE MASCOTAS -->
+    <main class="main-container">
+        <div class="pets-grid">
+            <div class="pet-card">
+                <img src="https://images.unsplash.com/photo-1587300003388-59208cc962cb?q=80&w=400" alt="Caniche">
+                <h3>Caniche</h3>
+                <p>6 meses - hembra</p>
+            </div>
+            <div class="pet-card">
+                <img src="https://images.unsplash.com/photo-1517849845537-4d257902454a?q=80&w=400" alt="Rucksell Terrier">
+                <h3>Rucksell Terrier</h3>
+                <p>8 Meses - macho</p>
+            </div>
+            <div class="pet-card">
+                <img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?q=80&w=400" alt="Gato blanco">
+                <h3>Gato blanco</h3>
+                <p>1 año - hembra</p>
+            </div>
+            <div class="pet-card">
+                <img src="https://images.unsplash.com/photo-1537151625747-768eb6cf92b2?q=80&w=400" alt="Gato">
+                <h3>Gato</h3>
+                <p>10 Meses - macho</p>
+            </div>
+            <div class="pet-card">
+                <img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?q=80&w=400" alt="Pequinés">
+                <h3>Pequinés</h3>
+                <p>5 Meses - hembra</p>
+            </div>
+            <div class="pet-card">
+                <img src="https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?q=80&w=400" alt="PUC">
+                <h3>PUC</h3>
+                <p>1 año - macho</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- PIE DE PÁGINA -->
+    <footer>
+        <div class="footer-content">
+            <p>Copyright by Fernando Pérez</p>
+            <div class="social-icons">
+                <a href="#">🌐</a>
+                <a href="#">📷</a>
+                <a href="#">🐦</a>
+                <a href="#">▶</a>
+            </div>
+            <p>Carrera 53a #43 161 Piso 7</p>
+        </div>
+    </footer>
+
 </body>
 </html>
