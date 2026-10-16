@@ -412,3 +412,93 @@ footer {
 .social-icons a:hover {
     transform: scale(1.1);
 }
+/* --- ESTILOS DE LOGIN Y REGISTRO --- */
+.auth-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+.auth-card {
+    background-color: #ff6b6b;
+    border-radius: 30px;
+    display: flex;
+    max-width: 800px;
+    width: 100%;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+    padding: 25px;
+    gap: 20px;
+    align-items: center;
+}
+
+.auth-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.auth-image img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 20px;
+}
+
+.auth-form-side {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.auth-cat-icon {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.auth-form-side form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.auth-form-side label {
+    color: white;
+    font-weight: bold;
+    font-size: 0.9rem;
+    margin-bottom: 4px;
+    display: block;
+    text-align: center;
+}
+
+.auth-form-side input {
+    width: 100%;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 15px;
+    margin-bottom: 12px;
+    outline: none;
+    text-align: center;
+}
+
+.btn-auth-submit {
+    background-color: #6b5b95;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 15px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 10px;
+    align-self: center;
+    transition: background 0.2s;
+}
+
+.btn-auth-submit:hover {
+    background-color: #55477b;
+}
