@@ -25,7 +25,6 @@
         <div class="nav-links">
             <a href="index.html" class="nav-item">Adoptame</a>
             <a href="testimonios.html" class="nav-item">Testimonio</a>
-            <a href="faq.html" class="nav-item">Preguntas Frecuentes</a>
             <a href="contacto.html" class="nav-item">Contacto</a>
         </div>
         <div class="search-box">
@@ -43,6 +42,32 @@
             </div>
             <a href="publicar.html" class="btn-mini btn-link">+ Publicar una mascota</a>
         </div>
+
+        <!-- Mis datos: se pueden modificar cuando quiera -->
+        <section class="perfil-seccion">
+            <h2>Mis datos</h2>
+            <div id="aviso-telefono" class="aviso" hidden>
+                ⚠️ Cargá tu teléfono para poder solicitar o publicar mascotas.
+            </div>
+            <form id="form-datos" class="form-datos">
+                <label for="dato-username">Nombre de usuario</label>
+                <input type="text" id="dato-username" maxlength="30" required>
+
+                <label for="dato-email">Correo (no se puede cambiar)</label>
+                <input type="email" id="dato-email" disabled>
+
+                <label for="dato-telefono">Teléfono / WhatsApp</label>
+                <input type="tel" id="dato-telefono" required>
+
+                <label for="dato-pass-actual">Contraseña actual (solo si querés cambiarla)</label>
+                <input type="password" id="dato-pass-actual">
+
+                <label for="dato-pass-nueva">Nueva contraseña</label>
+                <input type="password" id="dato-pass-nueva">
+
+                <button type="submit" class="btn-send">Guardar cambios</button>
+            </form>
+        </section>
 
         <!-- Solicitudes que YO envié para adoptar -->
         <section class="perfil-seccion">

@@ -1,20 +1,4 @@
-// =====================================================================
-//  ADOPCIONES MIAU - script.js
-//  Todo el sitio guarda sus datos en el navegador (localStorage).
-//  Claves que usamos:
-//    'mascotas'         -> lista de mascotas
-//    'solicitudes'      -> lista de solicitudes de adopción
-//    'usuarios'         -> usuarios registrados
-//    'usuarioLogueado'  -> usuario con la sesión iniciada
-// =====================================================================
 
-
-// ---------------------------------------------------------------------
-// 1. DATOS INICIALES
-// ---------------------------------------------------------------------
-
-// Si algún día cambiás los datos de ejemplo, subí este número y las
-// mascotas se reinician con la nueva lista.
 const VERSION_DATOS = '2';
 
 const mascotasIniciales = [
@@ -87,9 +71,53 @@ function escaparHTML(texto) {
         .replace(/'/g, '&#39;');
 }
 
+// Busca un usuario registrado por su correo (o null si no existe).
+function buscarUsuario(email) {
+    return leer('usuarios', []).find(u => u.email.toLowerCase() === String(email).toLowerCase()) || null;
+}
+
 // Devuelve el usuario con sesión iniciada (o null si no hay nadie).
+// La sesión solo recuerda el correo; el resto (nombre, teléfono) se lee de la
+// lista de usuarios, así siempre está actualizado si lo cambia en su perfil.
 function obtenerUsuario() {
-    return leer('usuarioLogueado', null);
+    const sesion = leer('usuarioLogueado', null);
+    if (!sesion) return null;
+    const registrado = buscarUsuario(sesion.email);
+    return {
+        username: registrado ? registrado.username : sesion.username,
+        email: sesion.email.toLowerCase(),
+        telefono: registrado && registrado.telefono ? registrado.telefono : ''
+    };
+}
+
+// Nombre actual de una persona (si cambió su nombre de usuario, se ve el nuevo).
+function nombreDe(email, respaldo) {
+    const persona = buscarUsuario(email);
+    return persona ? persona.username : respaldo;
+}
+
+// Acepta números, espacios, + - y paréntesis (entre 8 y 20 caracteres).
+function telefonoValido(telefono) {
+    return /^[\d\s+()-]{8,20}$/.test(telefono);
+}
+
+// Si el usuario no cargó su teléfono, lo manda a su perfil a completarlo
+// (y al guardarlo vuelve a la página donde estaba). Devuelve true si ya lo tiene.
+function exigirTelefono(mensaje) {
+    const usuario = obtenerUsuario();
+    if (usuario && usuario.telefono) return true;
+    alert(mensaje);
+    sessionStorage.setItem('volverA', paginaActual() + window.location.search);
+    window.location.href = 'perfil.html';
+    return false;
+}
+
+// Muestra el correo y el teléfono de una persona.
+// Se usa SOLO cuando una adopción fue aceptada.
+function htmlContacto(email) {
+    const persona = buscarUsuario(email);
+    const telefono = persona && persona.telefono ? escaparHTML(persona.telefono) : 'no cargado';
+    return `<div class="contacto-box"><p>📧 ${escaparHTML(email)}</p><p>📞 ${telefono}</p></div>`;
 }
 
 // Nombre del archivo actual, por ejemplo "perfil.html".
@@ -159,6 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
     iniciarDetalle();    // mascota.html
     iniciarPublicar();   // publicar.html
     iniciarPerfil();     // perfil.html
+    iniciarTestimonios(); // testimonios.html
     iniciarRegistro();   // registro.html
     iniciarLogin();      // login.html
 });
@@ -170,6 +199,7 @@ function prepararDatos() {
     }
     if (!localStorage.getItem('usuarios')) guardar('usuarios', []);
     if (!localStorage.getItem('solicitudes')) guardar('solicitudes', []);
+    if (!localStorage.getItem('testimonios')) guardar('testimonios', []);
 }
 
 
@@ -358,7 +388,7 @@ function iniciarDetalle() {
 
                 <h3>Sobre ${escaparHTML(mascota.nombre)}</h3>
                 <p>${escaparHTML(mascota.descripcion || 'Sin descripción.')}</p>
-                <p class="publicado-por">Publicada por: <strong>${escaparHTML(mascota.publicadoPorNombre || 'Adopciones MIAU')}</strong></p>
+                <p class="publicado-por">Publicada por: <strong>${escaparHTML(nombreDe(mascota.publicadoPor, mascota.publicadoPorNombre) || 'Adopciones MIAU')}</strong></p>
 
                 <button id="btn-solicitar" class="btn-adoptar" ${deshabilitado ? 'disabled' : ''}>${textoBoton}</button>
                 ${yaSolicitada ? '<p class="publicado-por"><a href="perfil.html">Ver el estado de mi solicitud</a></p>' : ''}
@@ -373,6 +403,7 @@ function iniciarDetalle() {
     // Al tocar el botón: si no hay sesión, a login; si hay, mostramos el formulario
     botonSolicitar.addEventListener('click', () => {
         if (!exigirLogin('Tenés que iniciar sesión para solicitar una adopción.')) return;
+        if (!exigirTelefono('Para solicitar una adopción primero cargá tu teléfono en tu perfil. Así podrán contactarte si te aceptan.')) return;
         seccionForm.hidden = false;
         seccionForm.scrollIntoView({ behavior: 'smooth' });
     });
@@ -397,9 +428,9 @@ function iniciarDetalle() {
             id: Date.now(),
             mascotaId: mascota.id,
             mascotaNombre: mascota.nombre,
+            publicadorEmail: mascota.publicadoPor,
             solicitanteEmail: usuarioActual.email,
             solicitanteNombre: usuarioActual.username,
-            telefono: document.getElementById('telefono').value.trim(),
             mensaje: document.getElementById('mensaje').value.trim(),
             fecha: new Date().toISOString(),
             estado: 'Pendiente'
@@ -422,6 +453,7 @@ function iniciarPublicar() {
     if (!form) return;
 
     if (!exigirLogin('Tenés que iniciar sesión para publicar una mascota.')) return;
+    if (!exigirTelefono('Antes de publicar, cargá tu teléfono en tu perfil. Así podrán contactarte cuando alguien quiera adoptar.')) return;
     const usuario = obtenerUsuario();
 
     const inputArchivo = document.getElementById('img-archivo');
@@ -528,10 +560,79 @@ function iniciarPerfil() {
     if (!perfil) return;
 
     if (!exigirLogin('Tenés que iniciar sesión para ver tu perfil.')) return;
-    const usuario = obtenerUsuario();
+    let usuario = obtenerUsuario();   // "let" porque puede cambiar al guardar "Mis datos"
 
-    document.getElementById('perfil-nombre').textContent = usuario.username;
-    document.getElementById('perfil-email').textContent = usuario.email;
+    // ---- Mis datos (formulario para editar nombre, teléfono y contraseña) ----
+    const formDatos = document.getElementById('form-datos');
+    const avisoTelefono = document.getElementById('aviso-telefono');
+
+    function mostrarDatos() {
+        document.getElementById('perfil-nombre').textContent = usuario.username;
+        document.getElementById('perfil-email').textContent = usuario.email;
+        document.getElementById('dato-username').value = usuario.username;
+        document.getElementById('dato-email').value = usuario.email;
+        document.getElementById('dato-telefono').value = usuario.telefono;
+        avisoTelefono.hidden = Boolean(usuario.telefono);   // aviso solo si falta el teléfono
+    }
+    mostrarDatos();
+
+    formDatos.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const nuevoNombre = document.getElementById('dato-username').value.trim();
+        const nuevoTelefono = document.getElementById('dato-telefono').value.trim();
+        const passActual = document.getElementById('dato-pass-actual').value;
+        const passNueva = document.getElementById('dato-pass-nueva').value;
+
+        if (!nuevoNombre) {
+            alert('El nombre de usuario no puede estar vacío.');
+            return;
+        }
+        if (!telefonoValido(nuevoTelefono)) {
+            alert('Ingresá un teléfono válido (solo números, espacios, + - y paréntesis).');
+            return;
+        }
+
+        const usuarios = leer('usuarios', []);
+        const registrado = usuarios.find(u => u.email.toLowerCase() === usuario.email);
+        if (!registrado) {
+            alert('No encontramos tu cuenta. Volvé a iniciar sesión.');
+            return;
+        }
+
+        // Cambiar contraseña es opcional: solo si escribió una nueva
+        if (passNueva) {
+            if (passActual !== registrado.password) {
+                alert('La contraseña actual no es correcta.');
+                return;
+            }
+            if (passNueva.length < 6) {
+                alert('La nueva contraseña debe tener al menos 6 caracteres.');
+                return;
+            }
+            registrado.password = passNueva;
+        }
+
+        const faltabaTelefono = !usuario.telefono;
+        registrado.username = nuevoNombre;
+        registrado.telefono = nuevoTelefono;
+        if (!guardar('usuarios', usuarios)) return;
+
+        usuario = obtenerUsuario();
+        document.getElementById('dato-pass-actual').value = '';
+        document.getElementById('dato-pass-nueva').value = '';
+        mostrarDatos();
+        actualizarCabeceraUsuario();
+        dibujar();
+        alert('¡Datos actualizados!');
+
+        // Si lo mandamos acá a cargar el teléfono, lo devolvemos a lo que estaba haciendo
+        const destino = sessionStorage.getItem('volverA');
+        if (faltabaTelefono && destino && /^[\w-]+\.html(\?[\w=&%.-]*)?$/.test(destino)) {
+            sessionStorage.removeItem('volverA');
+            window.location.href = destino;
+        }
+    });
 
     const masNuevoPrimero = (a, b) => b.id - a.id;
 
@@ -553,7 +654,9 @@ function iniciarPerfil() {
             : '';
         let aviso = '';
         if (s.estado === 'Aceptada') {
-            aviso = `<p>🎉 ¡Aceptaron tu solicitud!${m ? ' Contacto: ' + escaparHTML(m.publicadoPor) : ''}</p>`;
+            const emailPublicador = s.publicadorEmail || (m ? m.publicadoPor : '');
+            aviso = '<p>🎉 ¡Aceptaron tu solicitud! Estos son los datos de contacto de quien publicó la mascota:</p>'
+                  + (emailPublicador ? htmlContacto(emailPublicador) : '');
         } else if (s.estado === 'Pendiente') {
             aviso = '<p>Esperando respuesta de quien publicó la mascota.</p>';
         }
@@ -573,6 +676,14 @@ function iniciarPerfil() {
 
     // Tarjeta de una solicitud que le hicieron a una de MIS mascotas
     function tarjetaRecibida(s) {
+        // Los datos de contacto se muestran recién cuando la solicitud fue aceptada
+        let contacto = '';
+        if (s.estado === 'Aceptada') {
+            contacto = '<p>Datos de contacto de quien quiere adoptar:</p>' + htmlContacto(s.solicitanteEmail);
+        } else if (s.estado === 'Pendiente') {
+            contacto = '<p>Los datos de contacto se muestran cuando aceptás la solicitud.</p>';
+        }
+
         const botones = s.estado === 'Pendiente'
             ? `<button class="btn-mini btn-ok" data-accion="aceptar" data-id="${s.id}">Aceptar</button>
                <button class="btn-mini btn-peligro" data-accion="rechazar" data-id="${s.id}">Rechazar</button>`
@@ -580,9 +691,9 @@ function iniciarPerfil() {
         return `
             <div class="item-perfil">
                 <div class="item-info">
-                    <h4>${escaparHTML(s.solicitanteNombre)} quiere adoptar a ${escaparHTML(s.mascotaNombre)}</h4>
-                    <p>📧 ${escaparHTML(s.solicitanteEmail)} · 📞 ${escaparHTML(s.telefono)}</p>
+                    <h4>${escaparHTML(nombreDe(s.solicitanteEmail, s.solicitanteNombre))} quiere adoptar a ${escaparHTML(s.mascotaNombre)}</h4>
                     <p class="mensaje-solicitud">"${escaparHTML(s.mensaje)}"</p>
+                    ${contacto}
                     <p>Recibida el ${formatearFecha(s.fecha)}</p>
                     <span class="estado estado-${s.estado.toLowerCase()}">${s.estado}</span>
                 </div>
@@ -693,7 +804,136 @@ function iniciarPerfil() {
 
 
 // ---------------------------------------------------------------------
-// 9. REGISTRO DE USUARIOS (registro.html)
+// 9. TESTIMONIOS (testimonios.html)
+//    Se guardan en localStorage ('testimonios'). La foto es opcional.
+// ---------------------------------------------------------------------
+function iniciarTestimonios() {
+    const lista = document.getElementById('lista-testimonios');
+    const form = document.getElementById('form-testimonio');
+    if (!lista || !form) return;
+
+    const inputFoto = document.getElementById('testimonio-foto');
+    const botonAdjuntar = document.getElementById('btn-adjuntar');
+    const botonEnviar = document.getElementById('btn-enviar-testimonio');
+    const vistaPrevia = document.getElementById('testimonio-vista-previa');
+
+    // Dibuja todos los testimonios guardados (el más nuevo primero)
+    function dibujar() {
+        const usuario = obtenerUsuario();
+        const testimonios = leer('testimonios', []).sort((a, b) => b.id - a.id);
+
+        if (testimonios.length === 0) {
+            lista.innerHTML = '<p class="vacio">Todavía no hay testimonios. ¡Sé el primero en compartir el tuyo! 🐾</p>';
+            return;
+        }
+
+        lista.innerHTML = testimonios.map(t => {
+            const foto = t.img
+                ? `<img src="${escaparHTML(t.img)}" alt="${escaparHTML(t.mascotaNombre)}">`
+                : '<div class="sin-foto">🐾</div>';
+            // Solo el autor ve el botón para eliminar su testimonio
+            const eliminar = usuario && usuario.email === t.autorEmail
+                ? `<button class="btn-mini btn-peligro" data-accion="eliminar-testimonio" data-id="${t.id}">Eliminar</button>`
+                : '';
+            return `
+                <div class="testimonial-card">
+                    ${foto}
+                    <div class="testimonial-info">
+                        <h4>${escaparHTML(t.mascotaNombre)}</h4>
+                        <p>${escaparHTML(t.texto)}</p>
+                        <p class="testimonial-pie">
+                            Por ${escaparHTML(nombreDe(t.autorEmail, t.autorNombre))} · ${formatearFecha(t.fecha)} ${eliminar}
+                        </p>
+                    </div>
+                </div>`;
+        }).join('');
+    }
+
+    // El botón "Adjunta foto" abre el selector de archivos (que está oculto)
+    botonAdjuntar.addEventListener('click', () => inputFoto.click());
+    inputFoto.addEventListener('change', () => {
+        const archivo = inputFoto.files[0];
+        if (archivo) {
+            vistaPrevia.src = URL.createObjectURL(archivo);
+            vistaPrevia.hidden = false;
+            botonAdjuntar.textContent = 'Foto lista ✅ (cambiar)';
+        }
+    });
+
+    // Enviar el testimonio
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (!exigirLogin('Tenés que iniciar sesión para compartir tu testimonio.')) return;
+        const usuario = obtenerUsuario();
+
+        botonEnviar.disabled = true;   // evita envíos dobles
+        try {
+            const archivo = inputFoto.files[0];
+            let imagen = '';
+
+            if (archivo) {
+                if (!archivo.type.startsWith('image/')) {
+                    alert('El archivo tiene que ser una imagen (JPG, PNG, etc.).');
+                    return;
+                }
+                if (archivo.size > 5 * 1024 * 1024) {
+                    alert('La foto pesa más de 5 MB. Elegí una más liviana.');
+                    return;
+                }
+                try {
+                    imagen = await comprimirImagen(archivo, 600);
+                } catch (error) {
+                    alert(error.message);
+                    return;
+                }
+            }
+
+            const testimonios = leer('testimonios', []);
+            testimonios.push({
+                id: Date.now(),
+                mascotaNombre: document.getElementById('testimonio-nombre').value.trim(),
+                texto: document.getElementById('testimonio-texto').value.trim(),
+                img: imagen,
+                autorEmail: usuario.email,
+                autorNombre: usuario.username,
+                fecha: new Date().toISOString()
+            });
+
+            if (guardar('testimonios', testimonios)) {
+                form.reset();
+                vistaPrevia.hidden = true;
+                botonAdjuntar.textContent = 'Adjunta foto 📷';
+                dibujar();
+                alert('¡Gracias por compartir tu testimonio! 💜');
+            }
+        } finally {
+            botonEnviar.disabled = false;   // se ejecuta siempre, aunque haya un "return" antes
+        }
+    });
+
+    // Eliminar un testimonio (solo el autor puede)
+    lista.addEventListener('click', (e) => {
+        const boton = e.target.closest('button[data-accion="eliminar-testimonio"]');
+        if (!boton) return;
+
+        const usuario = obtenerUsuario();
+        const id = Number(boton.dataset.id);
+        const testimonios = leer('testimonios', []);
+        const testimonio = testimonios.find(x => x.id === id);
+
+        if (!testimonio || !usuario || testimonio.autorEmail !== usuario.email) return;
+        if (!confirm('¿Querés eliminar tu testimonio?')) return;
+
+        guardar('testimonios', testimonios.filter(x => x.id !== id));
+        dibujar();
+    });
+
+    dibujar();
+}
+
+
+// ---------------------------------------------------------------------
+// 10. REGISTRO DE USUARIOS (registro.html)
 // ---------------------------------------------------------------------
 function iniciarRegistro() {
     const form = document.querySelector('body.auth-body form');
@@ -701,10 +941,15 @@ function iniciarRegistro() {
 
     form.addEventListener('submit', (e) => {
         e.preventDefault();
-        const inputs = form.querySelectorAll('input');
-        const username = inputs[0].value.trim();
-        const email = inputs[1].value.trim().toLowerCase();   // siempre en minúsculas
-        const password = inputs[2].value;
+        const username = document.getElementById('reg-username').value.trim();
+        const email = document.getElementById('reg-email').value.trim().toLowerCase();   // siempre en minúsculas
+        const telefono = document.getElementById('reg-telefono').value.trim();
+        const password = document.getElementById('reg-password').value;
+
+        if (!telefonoValido(telefono)) {
+            alert('Ingresá un teléfono válido (solo números, espacios, + - y paréntesis).');
+            return;
+        }
 
         if (password.length < 6) {
             alert('La contraseña debe tener al menos 6 caracteres.');
@@ -717,7 +962,7 @@ function iniciarRegistro() {
             return;
         }
 
-        usuarios.push({ username, email, password });
+        usuarios.push({ username, email, telefono, password });
         if (guardar('usuarios', usuarios)) {
             alert('¡Registro exitoso! Ahora puedes iniciar sesión.');
             window.location.href = 'login.html';
@@ -727,7 +972,7 @@ function iniciarRegistro() {
 
 
 // ---------------------------------------------------------------------
-// 10. INICIO DE SESIÓN (login.html)
+// 11. INICIO DE SESIÓN (login.html)
 // ---------------------------------------------------------------------
 function iniciarLogin() {
     const form = document.querySelector('body.auth-body form');
@@ -748,7 +993,7 @@ function iniciarLogin() {
         }
 
         // Guardamos la sesión SIN la contraseña
-        guardar('usuarioLogueado', { username: usuario.username, email: email });
+        guardar('usuarioLogueado', { email: email });
         alert(`¡Bienvenido de nuevo, ${usuario.username}! 🐾`);
 
         // Si venía de otra página (por ejemplo "Solicitar adopción"), lo devolvemos ahí

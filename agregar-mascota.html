@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Publicar Mascota - Adopciones MIAU</title>
+    <title>Publicar mascota - Adopciones MIAU</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- CABECERA -->
     <header class="header-top">
         <div class="header-content">
             <div class="brand">
@@ -22,14 +21,11 @@
         </div>
     </header>
 
-    <!-- NAV BAR -->
     <nav class="nav-bar">
         <div class="nav-links">
             <a href="index.html" class="nav-item">Adoptame</a>
             <a href="testimonios.html" class="nav-item">Testimonio</a>
-            <a href="faq.html" class="nav-item">Preguntas Frecuentes</a>
             <a href="contacto.html" class="nav-item">Contacto</a>
-            <a href="agregar-mascota.html" class="nav-item active">Publicar Mascota</a>
         </div>
         <div class="search-box">
             <input type="text" placeholder="Buscar...">
@@ -37,33 +33,82 @@
         </div>
     </nav>
 
-    <!-- CONTENIDO FORMULARIO -->
-    <main class="auth-container">
-        <div class="pink-form-card" style="max-width: 600px; width: 100%;">
-            <h2>Registrar Nueva Mascota 🐾</h2>
-            <form id="form-nueva-mascota">
+    <main class="main-container">
+        <section class="pink-form-card form-centrado">
+            <h2>Publicar una mascota</h2>
+            <form id="form-publicar">
+
                 <div class="form-group">
-                    <label>Nombre de la mascota*</label>
-                    <input type="text" id="nombre-pet" placeholder="Ej: Firulais" required>
+                    <label for="nombre">Nombre o raza*</label>
+                    <input type="text" id="nombre" maxlength="40" placeholder="Ej: Luna (Caniche)" required>
                 </div>
+
+                <div class="fila-doble">
+                    <div class="form-group">
+                        <label for="especie">Especie*</label>
+                        <select id="especie" required>
+                            <option value="Perro">Perro</option>
+                            <option value="Gato">Gato</option>
+                            <option value="Otro">Otro</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="sexo">Sexo*</label>
+                        <select id="sexo" required>
+                            <option value="hembra">Hembra</option>
+                            <option value="macho">Macho</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="fila-doble">
+                    <div class="form-group">
+                        <label for="edad">Edad*</label>
+                        <input type="text" id="edad" maxlength="20" placeholder="Ej: 6 meses" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="tamano">Tamaño*</label>
+                        <select id="tamano" required>
+                            <option value="Pequeño">Pequeño</option>
+                            <option value="Mediano">Mediano</option>
+                            <option value="Grande">Grande</option>
+                        </select>
+                    </div>
+                </div>
+
                 <div class="form-group">
-                    <label>Edad y Sexo*</label>
-                    <input type="text" id="edad-pet" placeholder="Ej: 1 año - macho" required>
+                    <label for="descripcion">Descripción*</label>
+                    <textarea id="descripcion" rows="4" maxlength="500" placeholder="Contá cómo es su personalidad, si se lleva bien con otros animales, etc." required></textarea>
                 </div>
+
+                <div class="check-group">
+                    <input type="checkbox" id="vacunado">
+                    <label for="vacunado">Tiene sus vacunas al día</label>
+                </div>
+                <div class="check-group">
+                    <input type="checkbox" id="castrado">
+                    <label for="castrado">Está castrado/a</label>
+                </div>
+
+                <!-- FOTO: se puede subir un archivo O pegar un enlace -->
                 <div class="form-group">
-                    <label>URL de la Imagen*</label>
-                    <input type="url" id="img-pet" placeholder="https://imagen.com/perro.jpg" required>
+                    <label for="img-archivo">Foto*: subí un archivo</label>
+                    <input type="file" id="img-archivo" accept="image/*">
                 </div>
+                <p class="separador-o">— o —</p>
                 <div class="form-group">
-                    <label>Historia / Descripción detallada*</label>
-                    <textarea id="desc-pet" rows="4" placeholder="Cuéntanos su historia, vacunas, personalidad..." required></textarea>
+                    <label for="img-url">pegá el enlace (URL) de una foto</label>
+                    <input type="text" id="img-url" placeholder="https://...">
                 </div>
-                <button type="submit" class="btn-send" style="width: 100%; margin-top: 10px;">Guardar y Publicar</button>
+                <p class="ayuda">Si completás las dos opciones, se usa el archivo subido.</p>
+
+                <img id="vista-previa" class="vista-previa" alt="Vista previa de la foto" hidden>
+
+                <button type="submit" class="btn-send" id="btn-publicar">Publicar mascota</button>
             </form>
-        </div>
+        </section>
     </main>
 
-    <!-- FOOTER -->
     <footer>
         <div class="footer-content">
             <p>Copyright by Fernando Pérez</p>
@@ -74,6 +119,6 @@
         </div>
     </footer>
 
-    <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>

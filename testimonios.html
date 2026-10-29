@@ -23,57 +23,46 @@
     </header>
 
     <!-- NAVEGACIÓN -->
-   <nav class="nav-bar">
-    <div class="nav-links">
-        <a href="index.html" class="nav-item">Adoptame</a>
-        <a href="testimonios.html" class="nav-item">Testimonio</a>
-        <a href="faq.html" class="nav-item">Preguntas Frecuentes</a>
-        <a href="contacto.html" class="nav-item">Contacto</a>
-        <a href="agregar-mascota.html" class="nav-item">Publicar Mascota</a>
-    </div>
-    <div class="search-box">
-        <input type="text" placeholder="Buscar...">
-        <button class="search-btn">🔍</button>
-    </div>
-</nav>
+    <nav class="nav-bar">
+        <div class="nav-links">
+            <a href="index.html" class="nav-item">Adoptame</a>
+            <a href="testimonios.html" class="nav-item active">Testimonio</a>
+            <a href="contacto.html" class="nav-item">Contacto</a>
+        </div>
+        <div class="search-box">
+            <input type="text" placeholder="Buscar...">
+            <button class="search-btn">🔍</button>
+        </div>
+    </nav>
 
     <!-- CONTENIDO TESTIMONIOS -->
     <main class="main-container layout-two-cols">
-        <!-- Lista de testimonios (Izquierda) -->
-        <section class="testimonials-list">
-            <div class="testimonial-card">
-                <img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?q=80&w=300" alt="Mascota en auto">
-                <div class="testimonial-info">
-                    <h4>Testimonio</h4>
-                    <p>Martina es la perrita más maravillosa del mundo mundial. Somos los más felices de poder compartir nuestro hogar con ella, es la más tranquila, juguetona, amorosa, cariñosa y super compañera. Se adaptó profundamente a nuestro hogar y nos llena de felicidad y alegría. ¡Mensaje de amor por ella!</p>
-                </div>
-            </div>
 
-            <div class="testimonial-card">
-                <img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?q=80&w=300" alt="Mascota en auto">
-                <div class="testimonial-info">
-                    <h4>Testimonio</h4>
-                    <p>Martina es la perrita más maravillosa del mundo mundial. Somos los más felices de poder compartir nuestro hogar con ella, es la más tranquila, juguetona y muy cariñosa.</p>
-                </div>
-            </div>
-        </section>
+        <!-- Lista de testimonios (Izquierda): la dibuja script.js desde localStorage -->
+        <section class="testimonials-list" id="lista-testimonios"></section>
 
         <!-- Formulario rosa (Derecha) -->
         <section class="pink-form-card">
             <h2>Te invitamos a que compartas tu testimonio!</h2>
-            <form action="#" method="POST">
+            <form id="form-testimonio">
                 <div class="form-group">
-                    <label>Nro. microchip (Si lo tiene!)</label>
-                    <input type="text" placeholder="">
+                    <label for="testimonio-nombre">Nombre de la mascota*</label>
+                    <input type="text" id="testimonio-nombre" maxlength="40" required>
                 </div>
                 <div class="form-group">
-                    <label>Testimonio</label>
-                    <textarea rows="5"></textarea>
+                    <label for="testimonio-texto">Testimonio*</label>
+                    <textarea id="testimonio-texto" rows="5" maxlength="600" required></textarea>
                 </div>
+
+                <img id="testimonio-vista-previa" class="vista-previa" alt="Vista previa de la foto" hidden>
+                <!-- Este input está oculto: lo abre el botón "Adjunta foto" -->
+                <input type="file" id="testimonio-foto" accept="image/*" hidden>
+
                 <div class="form-actions-inline">
-                    <button type="button" class="btn-attach">Adjunta foto 📷</button>
-                    <button type="submit" class="btn-send">Enviar Testimonio</button>
+                    <button type="button" class="btn-attach" id="btn-adjuntar">Adjunta foto 📷</button>
+                    <button type="submit" class="btn-send" id="btn-enviar-testimonio">Enviar Testimonio</button>
                 </div>
+                <p class="ayuda">Necesitás iniciar sesión para enviarlo. La foto es opcional.</p>
             </form>
         </section>
     </main>
