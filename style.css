@@ -502,3 +502,231 @@ footer {
 .btn-auth-submit:hover {
     background-color: #55477b;
 }
+
+/* =====================================================================
+   NUEVOS ESTILOS: detalle de mascota, publicar, perfil y responsive
+   (todo lo de arriba es tu CSS original, sin cambios)
+   ===================================================================== */
+
+/* Hace que el atributo "hidden" siempre oculte el elemento */
+[hidden] { display: none !important; }
+
+/* --- Cabecera con sesión iniciada --- */
+.saludo-usuario {
+    align-self: center;
+    font-weight: bold;
+    color: #6b5b95;
+    font-size: 1.1rem;
+    text-decoration: none;
+}
+.saludo-usuario:hover { text-decoration: underline; }
+.header-right button.btn { cursor: pointer; border: none; }
+
+/* --- Menú: que los enlaces se acomoden si no entran --- */
+.nav-bar { flex-wrap: wrap; gap: 10px; }
+.nav-links { flex-wrap: wrap; }
+
+/* --- Tarjetas del catálogo (ahora son enlaces) --- */
+a.pet-card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+a.pet-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
+}
+.pet-card.adoptada img { filter: grayscale(1); opacity: 0.7; }
+
+.btn-ver {
+    display: inline-block;
+    margin-top: 10px;
+    background: #6b5b95;
+    color: #fff;
+    padding: 6px 16px;
+    border-radius: 15px;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.sin-resultados {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: #666;
+    font-size: 1.2rem;
+}
+
+/* --- Etiquetas de estado de la mascota --- */
+.etiqueta {
+    display: inline-block;
+    padding: 3px 12px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+.etiqueta-disponible { background: #d4f5dd; color: #1b6b34; }
+.etiqueta-adoptada { background: #e0e0e0; color: #555; }
+
+/* --- Detalle de la mascota --- */
+.detalle-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    background: #fff;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+.detalle-foto img {
+    width: 100%;
+    max-height: 420px;
+    object-fit: cover;
+    border-radius: 15px;
+}
+.detalle-info h1 { color: #6b5b95; margin-bottom: 10px; }
+.detalle-info h3 { margin-top: 15px; margin-bottom: 5px; }
+.detalle-info p { color: #555; line-height: 1.5; }
+.detalle-datos { list-style: none; margin: 15px 0; }
+.detalle-datos li { padding: 6px 0; border-bottom: 1px solid #eee; }
+.publicado-por { margin-top: 15px; font-size: 0.9rem; }
+
+.btn-adoptar {
+    margin-top: 20px;
+    background: #e91e63;
+    color: #fff;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 15px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+.btn-adoptar:hover:not(:disabled) { background: #c2185b; }
+.btn-adoptar:disabled { background: #bbb; cursor: not-allowed; }
+
+#seccion-solicitud { max-width: 600px; margin: 30px auto 0; }
+
+/* --- Formulario de publicar --- */
+.form-centrado { max-width: 600px; margin: 0 auto; }
+.fila-doble { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+
+.pink-form-card select {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    outline: none;
+    background: #fff;
+}
+.pink-form-card input[type="file"] { background: #fff; }
+.pink-form-card input[type="checkbox"] { width: auto; margin: 0 8px 0 0; }
+
+.check-group { display: flex; align-items: center; margin-bottom: 12px; }
+.check-group label { margin-bottom: 0; }
+
+.separador-o { text-align: center; font-weight: bold; margin: 0 0 12px; }
+.ayuda { font-size: 0.8rem; margin: -8px 0 15px; }
+
+.vista-previa {
+    display: block;
+    width: 100%;
+    max-height: 220px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 15px;
+}
+
+/* --- Perfil --- */
+.perfil-cabecera {
+    background: #fff;
+    border-radius: 20px;
+    padding: 20px 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.perfil-cabecera h1 { color: #6b5b95; }
+.perfil-cabecera p { color: #666; }
+
+.perfil-seccion { margin-bottom: 35px; }
+.perfil-seccion h2 { color: #6b5b95; margin-bottom: 15px; }
+
+.item-perfil {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    flex-wrap: wrap;
+    background: #fff;
+    padding: 12px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+.item-perfil img, .sin-foto {
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 10px;
+    flex-shrink: 0;
+}
+.sin-foto {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #eee;
+    font-size: 2rem;
+}
+.item-info { flex: 1; min-width: 200px; }
+.item-info h4 { margin-bottom: 4px; }
+.item-info p { font-size: 0.9rem; color: #555; margin-bottom: 4px; }
+.mensaje-solicitud { font-style: italic; }
+.item-acciones { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.estado {
+    display: inline-block;
+    padding: 3px 12px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+.estado-pendiente { background: #fff3cd; color: #7a5b00; }
+.estado-aceptada  { background: #d4f5dd; color: #1b6b34; }
+.estado-rechazada { background: #fde0e0; color: #a12626; }
+.estado-cancelada { background: #e0e0e0; color: #555; }
+
+.btn-mini {
+    display: inline-block;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 0.85rem;
+    cursor: pointer;
+    text-decoration: none;
+}
+.btn-ok { background: #2e9e55; color: #fff; }
+.btn-peligro { background: #e53935; color: #fff; }
+.btn-link { background: #6b5b95; color: #fff; }
+
+.vacio { color: #777; background: #fff; padding: 15px; border-radius: 12px; }
+
+/* --- Celulares y pantallas chicas --- */
+@media (max-width: 768px) {
+    .layout-two-cols, .detalle-card, .fila-doble { grid-template-columns: 1fr; }
+    .auth-card { flex-direction: column; }
+    .header-top { padding: 15px 20px; }
+    .header-content, .footer-content { flex-direction: column; gap: 10px; text-align: center; }
+    .header-right { flex-wrap: wrap; justify-content: center; }
+    .brand-text { font-size: 1.8rem; }
+    .btn { padding: 10px 18px; font-size: 1rem; }
+    .nav-bar { padding: 12px 20px; justify-content: center; }
+    .hero-content { flex-direction: column; text-align: center; }
+    .hero-image img { max-width: 100%; }
+    .hero-text h1 { font-size: 2.2rem; }
+}

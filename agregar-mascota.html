@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Publicar Mascota - Adopciones MIAU</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- CABECERA -->
+    <header class="header-top">
+        <div class="header-content">
+            <div class="brand">
+                <span class="brand-text">Adopciones MIAU</span>
+                <span class="pata-icon">🐾</span>
+            </div>
+            <div class="header-right">
+                <a href="login.html" class="btn btn-primary">Iniciar sesión</a>
+                <a href="registro.html" class="btn btn-secondary">Registrarse</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- NAV BAR -->
+    <nav class="nav-bar">
+        <div class="nav-links">
+            <a href="index.html" class="nav-item">Adoptame</a>
+            <a href="testimonios.html" class="nav-item">Testimonio</a>
+            <a href="faq.html" class="nav-item">Preguntas Frecuentes</a>
+            <a href="contacto.html" class="nav-item">Contacto</a>
+            <a href="agregar-mascota.html" class="nav-item active">Publicar Mascota</a>
+        </div>
+        <div class="search-box">
+            <input type="text" placeholder="Buscar...">
+            <button class="search-btn">🔍</button>
+        </div>
+    </nav>
+
+    <!-- CONTENIDO FORMULARIO -->
+    <main class="auth-container">
+        <div class="pink-form-card" style="max-width: 600px; width: 100%;">
+            <h2>Registrar Nueva Mascota 🐾</h2>
+            <form id="form-nueva-mascota">
+                <div class="form-group">
+                    <label>Nombre de la mascota*</label>
+                    <input type="text" id="nombre-pet" placeholder="Ej: Firulais" required>
+                </div>
+                <div class="form-group">
+                    <label>Edad y Sexo*</label>
+                    <input type="text" id="edad-pet" placeholder="Ej: 1 año - macho" required>
+                </div>
+                <div class="form-group">
+                    <label>URL de la Imagen*</label>
+                    <input type="url" id="img-pet" placeholder="https://imagen.com/perro.jpg" required>
+                </div>
+                <div class="form-group">
+                    <label>Historia / Descripción detallada*</label>
+                    <textarea id="desc-pet" rows="4" placeholder="Cuéntanos su historia, vacunas, personalidad..." required></textarea>
+                </div>
+                <button type="submit" class="btn-send" style="width: 100%; margin-top: 10px;">Guardar y Publicar</button>
+            </form>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-content">
+            <p>Copyright by Fernando Pérez</p>
+            <div class="social-icons">
+                <a href="#">🌐</a><a href="#">📷</a><a href="#">🐦</a><a href="#">▶</a>
+            </div>
+            <p>Carrera 53a #43 161 Piso 7</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

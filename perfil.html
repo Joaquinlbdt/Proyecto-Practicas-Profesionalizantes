@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi perfil - Adopciones MIAU</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="header-top">
+        <div class="header-content">
+            <div class="brand">
+                <span class="brand-text">Adopciones MIAU</span>
+                <span class="pata-icon">🐾</span>
+            </div>
+            <div class="header-right">
+                <a href="login.html" class="btn btn-primary">Iniciar sesión</a>
+                <a href="registro.html" class="btn btn-secondary">Registrarse</a>
+            </div>
+        </div>
+    </header>
+
+    <nav class="nav-bar">
+        <div class="nav-links">
+            <a href="index.html" class="nav-item">Adoptame</a>
+            <a href="testimonios.html" class="nav-item">Testimonio</a>
+            <a href="faq.html" class="nav-item">Preguntas Frecuentes</a>
+            <a href="contacto.html" class="nav-item">Contacto</a>
+        </div>
+        <div class="search-box">
+            <input type="text" placeholder="Buscar...">
+            <button class="search-btn">🔍</button>
+        </div>
+    </nav>
+
+    <main class="main-container" id="perfil">
+
+        <div class="perfil-cabecera">
+            <div>
+                <h1 id="perfil-nombre"></h1>
+                <p id="perfil-email"></p>
+            </div>
+            <a href="publicar.html" class="btn-mini btn-link">+ Publicar una mascota</a>
+        </div>
+
+        <!-- Solicitudes que YO envié para adoptar -->
+        <section class="perfil-seccion">
+            <h2>Mis solicitudes de adopción</h2>
+            <div id="mis-solicitudes"></div>
+        </section>
+
+        <!-- Solicitudes que otras personas enviaron por MIS mascotas -->
+        <section class="perfil-seccion">
+            <h2>Solicitudes recibidas</h2>
+            <div id="solicitudes-recibidas"></div>
+        </section>
+
+        <!-- Mascotas que YO publiqué -->
+        <section class="perfil-seccion">
+            <h2>Mis mascotas publicadas</h2>
+            <div id="mis-publicaciones"></div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>Copyright by Fernando Pérez</p>
+            <div class="social-icons">
+                <a href="#">🌐</a><a href="#">📷</a><a href="#">🐦</a><a href="#">▶</a>
+            </div>
+            <p>Carrera 53a #43 161 Piso 7</p>
+        </div>
+    </footer>
+
+<script src="script.js"></script>
+</body>
+</html>

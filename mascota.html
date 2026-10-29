@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mascota - Adopciones MIAU</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="header-top">
+        <div class="header-content">
+            <div class="brand">
+                <span class="brand-text">Adopciones MIAU</span>
+                <span class="pata-icon">🐾</span>
+            </div>
+            <div class="header-right">
+                <a href="login.html" class="btn btn-primary">Iniciar sesión</a>
+                <a href="registro.html" class="btn btn-secondary">Registrarse</a>
+            </div>
+        </div>
+    </header>
+
+    <nav class="nav-bar">
+        <div class="nav-links">
+            <a href="index.html" class="nav-item">Adoptame</a>
+            <a href="testimonios.html" class="nav-item">Testimonio</a>
+            <a href="faq.html" class="nav-item">Preguntas Frecuentes</a>
+            <a href="contacto.html" class="nav-item">Contacto</a>
+        </div>
+        <div class="search-box">
+            <input type="text" placeholder="Buscar...">
+            <button class="search-btn">🔍</button>
+        </div>
+    </nav>
+
+    <main class="main-container">
+        <!-- Acá script.js dibuja la foto, los datos y el botón de adopción -->
+        <div id="detalle-mascota"></div>
+
+        <!-- Formulario de solicitud: está oculto hasta que se toca el botón "Solicitar adopción" -->
+        <section id="seccion-solicitud" class="pink-form-card" hidden>
+            <h2>Solicitar adopción</h2>
+            <form id="form-solicitud">
+                <div class="form-group">
+                    <label for="telefono">Teléfono de contacto*</label>
+                    <input type="tel" id="telefono" required>
+                </div>
+                <div class="form-group">
+                    <label for="mensaje">¿Por qué querés adoptar a esta mascota?*</label>
+                    <textarea id="mensaje" rows="4" required></textarea>
+                </div>
+                <button type="submit" class="btn-send">Enviar solicitud</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>Copyright by Fernando Pérez</p>
+            <div class="social-icons">
+                <a href="#">🌐</a><a href="#">📷</a><a href="#">🐦</a><a href="#">▶</a>
+            </div>
+            <p>Carrera 53a #43 161 Piso 7</p>
+        </div>
+    </footer>
+
+<script src="script.js"></script>
+</body>
+</html>
