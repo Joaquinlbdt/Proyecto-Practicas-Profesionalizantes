@@ -36,7 +36,7 @@ const mascotasIniciales = [
 
 
 // ---------------------------------------------------------------------
-// 2. FUNCIONES AUXILIARES (las usan todas las páginas)
+// 2. FUNCIONES AUXILIARES
 // ---------------------------------------------------------------------
 
 // Lee algo de localStorage. Si no existe, devuelve el valor "porDefecto".
