@@ -25,7 +25,6 @@
         <div class="nav-links">
             <a href="index.html" class="nav-item">Adoptame</a>
             <a href="testimonios.html" class="nav-item">Testimonio</a>
-            <a href="faq.html" class="nav-item">Preguntas Frecuentes</a>
             <a href="contacto.html" class="nav-item">Contacto</a>
         </div>
         <div class="search-box">
@@ -111,12 +110,53 @@
     </main>
 
     <footer>
-        <div class="footer-content">
-            <p>Copyright by Fernando Pérez</p>
-            <div class="social-icons">
-                <a href="#">🌐</a><a href="#">📷</a><a href="#">🐦</a><a href="#">▶</a>
+        <div class="footer-grid">
+
+            <!-- Marca -->
+            <div class="footer-col">
+                <p class="footer-marca">Adopciones MIAU 🐾</p>
+                <p>Conectamos mascotas que buscan un hogar con personas que quieren darles amor.</p>
+                <div class="social-icons">
+                    <a href="#" aria-label="Sitio web">🌐</a>
+                    <a href="#" aria-label="Instagram">📷</a>
+                    <a href="#" aria-label="Twitter">🐦</a>
+                    <a href="#" aria-label="YouTube">▶</a>
+                </div>
             </div>
-            <p>Carrera 53a #43 161 Piso 7</p>
+
+            <!-- Inicio y ¿Cómo adopto? -->
+            <div class="footer-col">
+                <h4>Explorá</h4>
+                <ul>
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="como-adoptar.html">¿Cómo adopto?</a></li>
+                </ul>
+            </div>
+
+            <!-- Contáctanos -->
+            <div class="footer-col">
+                <h4>Contáctanos</h4>
+                <p>📧 <a href="mailto:adopcionesmiau@gmail.com">adopcionesmiau@gmail.com</a></p>
+                <p>📍 Carrera 53a #43 161 Piso 7</p>
+                <p>🕘 Lun a Vie 9 a 18 hs · Sáb 9 a 14 hs</p>
+                <p><a href="contacto.html">Escribinos desde la página de contacto →</a></p>
+            </div>
+
+            <!-- Newsletter: el código está en script.js (iniciarFooter) -->
+            <div class="footer-col">
+                <h4>Enterate de nuevas adopciones</h4>
+                <p>Dejá tu correo y te avisamos cuando lleguen nuevas mascotas.</p>
+                <form id="form-newsletter" class="footer-newsletter-form">
+                    <input type="email" id="newsletter-email" placeholder="tucorreo@ejemplo.com" aria-label="Tu correo electrónico" required>
+                    <button type="submit">Suscribirme</button>
+                </form>
+                <p id="newsletter-msg" class="newsletter-msg" role="status"></p>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            <p>© <span class="anio-actual">2026</span> Adopciones MIAU · Copyright by Fernando Pérez</p>
         </div>
     </footer>
 

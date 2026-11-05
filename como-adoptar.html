@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¿Cómo adopto? - Adopciones MIAU</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="header-top">
+        <div class="header-content">
+            <div class="brand">
+                <span class="brand-text">Adopciones MIAU</span>
+                <span class="pata-icon">🐾</span>
+            </div>
+            <div class="header-right">
+                <a href="login.html" class="btn btn-primary">Iniciar sesión</a>
+                <a href="registro.html" class="btn btn-secondary">Registrarse</a>
+            </div>
+        </div>
+    </header>
+
+    <nav class="nav-bar">
+        <div class="nav-links">
+            <a href="index.html" class="nav-item">Adoptame</a>
+            <a href="testimonios.html" class="nav-item">Testimonio</a>
+            <a href="contacto.html" class="nav-item">Contacto</a>
+        </div>
+        <div class="search-box">
+            <input type="text" placeholder="Buscar...">
+            <button class="search-btn">🔍</button>
+        </div>
+    </nav>
+
+    <main class="main-container">
+
+        <div class="pagina-titulo">
+            <h1>¿Cómo adopto?</h1>
+            <p>Adoptar es simple. Seguí estos 5 pasos y encontrá a tu nuevo compañero.</p>
+        </div>
+
+        <!-- Los 5 pasos -->
+        <div class="pasos-grid">
+            <div class="paso-card">
+                <div class="paso-numero">1</div>
+                <div class="paso-icono">📝</div>
+                <h3>Registrate</h3>
+                <p>Creá tu cuenta con tu correo y tu teléfono. Así podremos ponernos en contacto.</p>
+            </div>
+            <div class="paso-card">
+                <div class="paso-numero">2</div>
+                <div class="paso-icono">🔍</div>
+                <h3>Elegí</h3>
+                <p>Mirá el catálogo y entrá a la ficha de la mascota que más te guste.</p>
+            </div>
+            <div class="paso-card">
+                <div class="paso-numero">3</div>
+                <div class="paso-icono">💌</div>
+                <h3>Solicitá</h3>
+                <p>Tocá "Solicitar adopción" y contanos por qué querés adoptarla.</p>
+            </div>
+            <div class="paso-card">
+                <div class="paso-numero">4</div>
+                <div class="paso-icono">⏳</div>
+                <h3>Esperá la respuesta</h3>
+                <p>Seguí el estado de tu solicitud desde tu perfil.</p>
+            </div>
+            <div class="paso-card">
+                <div class="paso-numero">5</div>
+                <div class="paso-icono">🏡</div>
+                <h3>Coordiná</h3>
+                <p>Si aceptan tu solicitud, intercambian correo y teléfono para organizar la adopción.</p>
+            </div>
+        </div>
+
+        <!-- Requisitos -->
+        <div class="requisitos-box">
+            <h2>Requisitos para adoptar</h2>
+            <ul>
+                <li>Ser mayor de edad.</li>
+                <li>Presentar DNI.</li>
+                <li>Presentar comprobante de domicilio.</li>
+                <li>Completar la entrevista de idoneidad.</li>
+            </ul>
+        </div>
+
+        <div class="cta-centrado">
+            <a href="index.html" class="btn">Ver mascotas disponibles 🐾</a>
+        </div>
+
+    </main>
+
+    <footer>
+        <div class="footer-grid">
+
+            <!-- Marca -->
+            <div class="footer-col">
+                <p class="footer-marca">Adopciones MIAU 🐾</p>
+                <p>Conectamos mascotas que buscan un hogar con personas que quieren darles amor.</p>
+                <div class="social-icons">
+                    <a href="#" aria-label="Sitio web">🌐</a>
+                    <a href="#" aria-label="Instagram">📷</a>
+                    <a href="#" aria-label="Twitter">🐦</a>
+                    <a href="#" aria-label="YouTube">▶</a>
+                </div>
+            </div>
+
+            <!-- Inicio y ¿Cómo adopto? -->
+            <div class="footer-col">
+                <h4>Explorá</h4>
+                <ul>
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="como-adoptar.html">¿Cómo adopto?</a></li>
+                </ul>
+            </div>
+
+            <!-- Contáctanos -->
+            <div class="footer-col">
+                <h4>Contáctanos</h4>
+                <p>📧 <a href="mailto:adopcionesmiau@gmail.com">adopcionesmiau@gmail.com</a></p>
+                <p>📍 Carrera 53a #43 161 Piso 7</p>
+                <p>🕘 Lun a Vie 9 a 18 hs · Sáb 9 a 14 hs</p>
+                <p><a href="contacto.html">Escribinos desde la página de contacto →</a></p>
+            </div>
+
+            <!-- Newsletter: el código está en script.js (iniciarFooter) -->
+            <div class="footer-col">
+                <h4>Enterate de nuevas adopciones</h4>
+                <p>Dejá tu correo y te avisamos cuando lleguen nuevas mascotas.</p>
+                <form id="form-newsletter" class="footer-newsletter-form">
+                    <input type="email" id="newsletter-email" placeholder="tucorreo@ejemplo.com" aria-label="Tu correo electrónico" required>
+                    <button type="submit">Suscribirme</button>
+                </form>
+                <p id="newsletter-msg" class="newsletter-msg" role="status"></p>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            <p>© <span class="anio-actual">2026</span> Adopciones MIAU · Copyright by Fernando Pérez</p>
+        </div>
+    </footer>
+
+<script src="script.js"></script>
+</body>
+</html>

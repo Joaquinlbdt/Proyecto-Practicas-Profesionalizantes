@@ -182,6 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
     actualizarCabeceraUsuario();
     agregarEnlacesNav();
     activarBuscador();
+    iniciarFooter();     // footer (todas las páginas)
 
     iniciarCatalogo();   // index.html
     iniciarDetalle();    // mascota.html
@@ -245,7 +246,7 @@ function agregarEnlacesNav() {
         const a = document.createElement('a');
         a.href = enlace.href;
         a.className = 'nav-item';
-        a.textContent = enlace.texto;
+        a.textContent = enlace.texto;    
         if (paginaActual() === enlace.href) a.classList.add('active');
         nav.appendChild(a);
     });
@@ -263,6 +264,50 @@ function activarBuscador() {
     };
     boton.addEventListener('click', buscar);
     input.addEventListener('keydown', (e) => { if (e.key === 'Enter') buscar(); });
+}
+
+
+// ---------------------------------------------------------------------
+// 4b. FOOTER (todas las páginas): año actual y suscripción al newsletter
+// ---------------------------------------------------------------------
+function iniciarFooter() {
+    // Año actual en el copyright
+    document.querySelectorAll('.anio-actual').forEach(el => {
+        el.textContent = new Date().getFullYear();
+    });
+
+    const form = document.getElementById('form-newsletter');
+    if (!form) return;
+    const input = document.getElementById('newsletter-email');
+    const mensaje = document.getElementById('newsletter-msg');
+
+    // Si hay sesión iniciada, dejamos su correo ya escrito
+    const usuario = obtenerUsuario();
+    if (usuario) input.value = usuario.email;
+
+    function mostrar(texto, tipo) {
+        mensaje.textContent = texto;
+        mensaje.className = 'newsletter-msg ' + tipo;   // "ok" (verde) o "error" (rojo)
+    }
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const email = input.value.trim().toLowerCase();
+        const suscriptores = leer('suscriptores', []);
+
+        if (suscriptores.includes(email)) {
+            mostrar('Ese correo ya está suscripto. ¡Gracias! 🐾', 'ok');
+            return;
+        }
+
+        suscriptores.push(email);
+        if (guardar('suscriptores', suscriptores)) {
+            mostrar('¡Listo! Te avisaremos cuando haya nuevas adopciones. 🐾', 'ok');
+            input.value = '';
+        } else {
+            mostrar('No pudimos guardar tu suscripción. Probá de nuevo.', 'error');
+        }
+    });
 }
 
 
@@ -480,7 +525,6 @@ function iniciarPublicar() {
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        // --- Paso 1: conseguir la imagen (archivo o URL) ---
         const archivo = inputArchivo.files[0];
         const url = inputUrl.value.trim();
         let imagen = '';
@@ -517,8 +561,6 @@ function iniciarPublicar() {
             botonPublicar.disabled = false;
             return;
         }
-
-        // --- Paso 2: armar la mascota y guardarla ---
         const mascotas = leer('mascotas', []);
         const nuevoId = mascotas.reduce((mayor, m) => Math.max(mayor, m.id), 0) + 1;
         const edad = document.getElementById('edad').value.trim();
