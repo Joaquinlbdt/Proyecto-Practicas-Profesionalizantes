@@ -60,6 +60,8 @@ function mascotaJSON($fila)
         'nombre' => $fila['nombre'],
         'especie' => $fila['especie'],
         'edadysexo' => $fila['edad'] . ' - ' . $fila['sexo'],
+        'edad' => $fila['edad'],
+        'sexo' => $fila['sexo'],
         'tamano' => $fila['tamano'],
         'descripcion' => $fila['descripcion'],
         'vacunado' => (bool) $fila['vacunado'],
@@ -69,6 +71,33 @@ function mascotaJSON($fila)
         'publicadoPorNombre' => $fila['nombre_publicador'] ?: 'Adopciones MIAU',
         'img' => $fila['foto']
     ];
+}
+
+// ---------- NOTIFICACIONES ----------
+// Guarda una notificación para UN usuario.
+// Si algo falla (por ejemplo, si falta la tabla), no rompe la acción principal:
+// solo lo anota en el log de errores de Apache.
+function notificarUsuario($conexion, $usuarioId, $tipo, $mensaje, $mascotaId = null)
+{
+    try {
+        $conexion->prepare('INSERT INTO notificaciones (usuario_id, tipo, mensaje, mascota_id) VALUES (?, ?, ?, ?)')
+            ->execute([$usuarioId, $tipo, $mensaje, $mascotaId]);
+    } catch (Throwable $error) {
+        error_log('No se pudo guardar la notificación: ' . $error->getMessage());
+    }
+}
+
+// Avisa a TODOS los usuarios, menos a quien hizo la acción.
+function notificarATodos($conexion, $excluirUsuarioId, $tipo, $mensaje, $mascotaId = null)
+{
+    try {
+        $conexion->prepare(
+            'INSERT INTO notificaciones (usuario_id, tipo, mensaje, mascota_id)
+             SELECT id, ?, ?, ? FROM usuarios WHERE id <> ?'
+        )->execute([$tipo, $mensaje, $mascotaId, $excluirUsuarioId]);
+    } catch (Throwable $error) {
+        error_log('No se pudieron guardar las notificaciones: ' . $error->getMessage());
+    }
 }
 
 $accion = isset($_GET['accion']) ? $_GET['accion'] : '';
@@ -155,7 +184,12 @@ try {
             $usuario['id'], $nombre, $especie, $edad, $sexo, $tamano, $descripcion,
             !empty($datos['vacunado']) ? 1 : 0, !empty($datos['castrado']) ? 1 : 0, $foto
         ]);
-        responder(['id' => (int) $conexion->lastInsertId()], 201);
+        $nuevoId = (int) $conexion->lastInsertId();
+        notificarATodos(
+            $conexion, $usuario['id'], 'mascota_publicada',
+            $usuario['username'] . ' publicó una nueva mascota: ' . $nombre, $nuevoId
+        );
+        responder(['id' => $nuevoId], 201);
     }
 
     if ($accion === 'solicitudes' && $metodo === 'GET') {
@@ -239,6 +273,12 @@ try {
             );
             $consulta->execute([$mascotaId, $usuario['id'], $mensaje]);
         }
+        if ($mascota['usuario_id'] !== null) {
+            notificarUsuario(
+                $conexion, (int) $mascota['usuario_id'], 'solicitud_recibida',
+                $usuario['username'] . ' quiere adoptar a ' . $mascota['nombre'], $mascotaId
+            );
+        }
         responder(['mensaje' => 'Solicitud guardada.'], 201);
     }
 
@@ -254,6 +294,7 @@ try {
             responder(['error' => 'La solicitud ya no está pendiente.'], 409);
         }
 
+        $otrosSolicitantes = [];
         if ($operacion === 'cancelar' && (int) $solicitud['usuario_id'] === $usuario['id']) {
             $conexion->prepare("UPDATE solicitudes_adopcion SET estado = 'Cancelada' WHERE id = ?")->execute([$id]);
         } elseif (in_array($operacion, ['aceptar', 'rechazar'], true)) {
@@ -263,6 +304,10 @@ try {
                 responder(['error' => 'No tenés permiso para responder esta solicitud.'], 403);
             }
             if ($operacion === 'aceptar') {
+                // Anotamos quiénes más estaban esperando, para avisarles después
+                $consulta = $conexion->prepare("SELECT usuario_id FROM solicitudes_adopcion WHERE mascota_id = ? AND estado = 'Pendiente' AND id <> ?");
+                $consulta->execute([$solicitud['mascota_id'], $id]);
+                $otrosSolicitantes = $consulta->fetchAll(PDO::FETCH_COLUMN);
                 $conexion->beginTransaction();
                 $conexion->prepare("UPDATE mascotas SET estado = 'Adoptada' WHERE id = ?")->execute([$solicitud['mascota_id']]);
                 $conexion->prepare("UPDATE solicitudes_adopcion SET estado = 'Rechazada' WHERE mascota_id = ? AND estado = 'Pendiente'")->execute([$solicitud['mascota_id']]);
@@ -273,6 +318,27 @@ try {
             }
         } else {
             responder(['error' => 'No tenés permiso para esta acción.'], 403);
+        }
+        if (in_array($operacion, ['aceptar', 'rechazar'], true)) {
+            $consulta = $conexion->prepare('SELECT nombre FROM mascotas WHERE id = ?');
+            $consulta->execute([$solicitud['mascota_id']]);
+            $nombreMascota = $consulta->fetchColumn() ?: 'la mascota';
+            $aceptada = $operacion === 'aceptar';
+            notificarUsuario(
+                $conexion, (int) $solicitud['usuario_id'],
+                $aceptada ? 'solicitud_aceptada' : 'solicitud_rechazada',
+                $aceptada
+                    ? $usuario['username'] . ' aceptó tu solicitud para adoptar a ' . $nombreMascota . '. Ya podés ver sus datos de contacto en tu perfil.'
+                    : $usuario['username'] . ' rechazó tu solicitud para adoptar a ' . $nombreMascota . '.',
+                (int) $solicitud['mascota_id']
+            );
+            foreach ($otrosSolicitantes as $otroId) {
+                notificarUsuario(
+                    $conexion, (int) $otroId, 'solicitud_rechazada',
+                    'Tu solicitud para adoptar a ' . $nombreMascota . ' fue rechazada porque eligieron a otra persona.',
+                    (int) $solicitud['mascota_id']
+                );
+            }
         }
         responder(['mensaje' => 'Solicitud actualizada.']);
     }
@@ -371,6 +437,44 @@ try {
         }
         $conexion->prepare('INSERT INTO mensajes_contacto (nombre, correo, mensaje) VALUES (?, ?, ?)')->execute([$nombre, $correo, $mensaje]);
         responder(['mensaje' => 'Mensaje guardado.'], 201);
+    }
+
+    if ($accion === 'notificaciones' && $metodo === 'GET') {
+        $usuario = requiereSesion($conexion);
+        $consulta = $conexion->prepare(
+            'SELECT id, tipo, mensaje, mascota_id, leida, fecha
+             FROM notificaciones WHERE usuario_id = ? AND leida = 0 ORDER BY id DESC LIMIT 30'
+        );
+        $consulta->execute([$usuario['id']]);
+        $lista = [];
+        foreach ($consulta->fetchAll() as $fila) {
+            $lista[] = [
+                'id' => (int) $fila['id'],
+                'tipo' => $fila['tipo'],
+                'mensaje' => $fila['mensaje'],
+                'mascotaId' => $fila['mascota_id'] === null ? null : (int) $fila['mascota_id'],
+                'leida' => (bool) $fila['leida'],
+                'fecha' => $fila['fecha']
+            ];
+        }
+        $consulta = $conexion->prepare('SELECT COUNT(*) FROM notificaciones WHERE usuario_id = ? AND leida = 0');
+        $consulta->execute([$usuario['id']]);
+        responder(['notificaciones' => $lista, 'noLeidas' => (int) $consulta->fetchColumn()]);
+    }
+
+    if ($accion === 'notificaciones-leer' && $metodo === 'POST') {
+        $usuario = requiereSesion($conexion);
+        $datos = datosEntrada();
+        if (!empty($datos['id'])) {
+            // Marca UNA notificación como leída
+            $conexion->prepare('UPDATE notificaciones SET leida = 1 WHERE id = ? AND usuario_id = ?')
+                ->execute([(int) $datos['id'], $usuario['id']]);
+        } else {
+            // Sin id: marca TODAS como leídas
+            $conexion->prepare('UPDATE notificaciones SET leida = 1 WHERE usuario_id = ?')
+                ->execute([$usuario['id']]);
+        }
+        responder(['mensaje' => 'Notificaciones actualizadas.']);
     }
 
     responder(['error' => 'Acción desconocida.'], 404);

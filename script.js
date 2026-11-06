@@ -1,3 +1,13 @@
+// Carga solita los estilos de los filtros y las notificaciones (archivo estilos-nuevos.css),
+// así no hace falta pegarlos a mano dentro de style.css.
+(function cargarEstilosNuevos() {
+    if (!document.head || document.querySelector('link[href="estilos-nuevos.css"]')) return;
+    const enlace = document.createElement('link');
+    enlace.rel = 'stylesheet';
+    enlace.href = 'estilos-nuevos.css';
+    document.head.appendChild(enlace);
+})();
+
 let usuarioActual = null;
 
 async function guardarEnBase(accion, metodo = 'GET', datos = null, extra = '') {
@@ -95,6 +105,14 @@ function comprimirImagen(archivo, anchoMaximo = 800) {
     });
 }
 
+// Footer: los mini apartados se comportan como acordeón (al abrir uno, se cierran los demás)
+document.addEventListener('DOMContentLoaded', () => {
+    const minis = document.querySelectorAll('.footer-miau details.mini');
+    minis.forEach(d => d.addEventListener('toggle', () => {
+        if (d.open) minis.forEach(otro => { if (otro !== d) otro.open = false; });
+    }));
+});
+
 document.addEventListener('DOMContentLoaded', async () => {
     try {
         usuarioActual = (await guardarEnBase('sesion')).usuario;
@@ -139,7 +157,144 @@ function actualizarCabeceraUsuario() {
             mostrarError(error);
         }
     });
-    cabecera.append(saludo, salir);
+    // Campana de notificaciones, al lado del saludo
+    const campana = crearCampanaNotificaciones();
+    cabecera.append(saludo, campana, salir);
+    iniciarNotificaciones(campana);
+}
+
+// ---------------------------------------------------------------------
+// NOTIFICACIONES: campana con contador y panel desplegable
+//   - Se actualiza sola cada 15 segundos (mientras la pestaña esté a la vista).
+//   - Avisa cuando se publica una mascota, cuando alguien solicita adoptar
+//     una de tus mascotas y cuando responden a tu solicitud.
+// ---------------------------------------------------------------------
+let temporizadorNotificaciones = null;
+
+const ICONOS_NOTIFICACION = {
+    mascota_publicada: '🐶',
+    solicitud_recibida: '💌',
+    solicitud_aceptada: '🎉',
+    solicitud_rechazada: '😿'
+};
+
+function crearCampanaNotificaciones() {
+    const caja = document.createElement('div');
+    caja.className = 'notif-wrap';
+    caja.innerHTML = `
+        <button type="button" class="notif-btn" aria-label="Notificaciones" aria-expanded="false">
+            🔔<span class="notif-badge" hidden>0</span>
+        </button>
+        <div class="notif-panel" hidden>
+            <div class="notif-cabecera">
+                <strong>Notificaciones</strong>
+                <button type="button" class="notif-marcar-todas">Marcar todas como leídas</button>
+            </div>
+            <div class="notif-lista"></div>
+        </div>`;
+    return caja;
+}
+
+function iniciarNotificaciones(caja) {
+    const boton = caja.querySelector('.notif-btn');
+    const insignia = caja.querySelector('.notif-badge');
+    const panel = caja.querySelector('.notif-panel');
+    const lista = caja.querySelector('.notif-lista');
+    const marcarTodas = caja.querySelector('.notif-marcar-todas');
+    let cantidadAnterior = null;
+
+    function formatearHora(fecha) {
+        return new Date(fecha.replace(' ', 'T')).toLocaleString('es-AR', {
+            day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit'
+        });
+    }
+
+    function dibujar(datos) {
+        // Contador rojo sobre la campana
+        insignia.textContent = datos.noLeidas > 9 ? '9+' : String(datos.noLeidas);
+        insignia.hidden = datos.noLeidas === 0;
+
+        // Si llegó una notificación nueva, la campana se sacude
+        if (cantidadAnterior !== null && datos.noLeidas > cantidadAnterior) {
+            boton.classList.add('notif-sacude');
+            setTimeout(() => boton.classList.remove('notif-sacude'), 700);
+        }
+        cantidadAnterior = datos.noLeidas;
+
+        // Solo se muestran las que NO están leídas: al leerlas desaparecen del panel
+        const pendientes = datos.notificaciones.filter(n => !n.leida);
+        marcarTodas.hidden = pendientes.length === 0;
+        if (!pendientes.length) {
+            lista.innerHTML = '<p class="notif-vacia">No tenés notificaciones nuevas 🐾</p>';
+            return;
+        }
+        lista.innerHTML = pendientes.map(n => `
+            <button type="button" class="notif-item ${n.leida ? '' : 'notif-nueva'}"
+                    data-id="${n.id}" data-tipo="${escaparHTML(n.tipo)}" data-mascota="${n.mascotaId ?? ''}">
+                <span class="notif-icono">${ICONOS_NOTIFICACION[n.tipo] || '🔔'}</span>
+                <span class="notif-texto">${escaparHTML(n.mensaje)}<small>${formatearHora(n.fecha)}</small></span>
+            </button>`).join('');
+    }
+
+    async function cargar() {
+        try {
+            dibujar(await guardarEnBase('notificaciones'));
+        } catch (error) {
+            // Sin alert: si falla, no queremos molestar al usuario cada 15 segundos
+            console.warn('No se pudieron cargar las notificaciones:', error.message);
+        }
+    }
+
+    // Abrir y cerrar el panel
+    boton.addEventListener('click', e => {
+        e.stopPropagation();
+        panel.hidden = !panel.hidden;
+        boton.setAttribute('aria-expanded', String(!panel.hidden));
+        if (!panel.hidden) cargar();
+    });
+    document.addEventListener('click', e => {
+        if (!caja.contains(e.target)) {
+            panel.hidden = true;
+            boton.setAttribute('aria-expanded', 'false');
+        }
+    });
+
+    // Tocar una notificación: la marca como leída y te lleva a donde corresponde
+    lista.addEventListener('click', async e => {
+        const item = e.target.closest('.notif-item');
+        if (!item) return;
+        try {
+            await guardarEnBase('notificaciones-leer', 'POST', { id: Number(item.dataset.id) });
+        } catch (error) {
+            console.warn(error.message);
+        }
+        if (item.dataset.tipo === 'mascota_publicada') {
+            if (item.dataset.mascota) {
+                window.location.href = 'mascota.html?id=' + item.dataset.mascota;
+            } else {
+                cargar();   // la mascota ya no existe
+            }
+        } else {
+            window.location.href = 'perfil.html';
+        }
+    });
+
+    marcarTodas.addEventListener('click', async () => {
+        // Las hacemos desaparecer enseguida, sin esperar al servidor
+        dibujar({ notificaciones: [], noLeidas: 0 });
+        try {
+            await guardarEnBase('notificaciones-leer', 'POST', {});
+        } catch (error) {
+            console.warn(error.message);
+        }
+        cargar();
+    });
+
+    cargar();
+    clearInterval(temporizadorNotificaciones);   // evita temporizadores duplicados
+    temporizadorNotificaciones = setInterval(() => {
+        if (!document.hidden) cargar();
+    }, 15000);
 }
 
 function agregarEnlacesNav() {
@@ -171,6 +326,27 @@ function activarBuscador() {
     });
 }
 
+// Convierte textos como "6 meses", "1 año" o "2 años" en cantidad de meses.
+// Devuelve null si no entiende el texto.
+function edadEnMeses(texto) {
+    const coincidencia = String(texto).toLowerCase().match(/(\d+(?:[.,]\d+)?)\s*(d[ií]as?|semanas?|mes(?:es)?|a[nñ]os?)/);
+    if (!coincidencia) return null;
+    const numero = parseFloat(coincidencia[1].replace(',', '.'));
+    const unidad = coincidencia[2];
+    if (unidad.startsWith('d')) return numero / 30;    // días
+    if (unidad.startsWith('s')) return numero / 4.3;   // semanas
+    if (unidad.startsWith('m')) return numero;         // meses
+    return numero * 12;                                 // años
+}
+
+// Rangos de edad del filtro (en meses)
+const RANGOS_EDAD = {
+    cachorro: { texto: 'Cachorro (menos de 1 año)', min: 0, max: 12 },
+    joven: { texto: 'Joven (1 a 2 años)', min: 12, max: 36 },
+    adulto: { texto: 'Adulto (3 a 7 años)', min: 36, max: 96 },
+    senior: { texto: 'Senior (8 años o más)', min: 96, max: Infinity }
+};
+
 async function iniciarCatalogo() {
     const grid = document.querySelector('.pets-grid');
     if (!grid) return;
@@ -199,18 +375,77 @@ async function iniciarCatalogo() {
         });
     }
 
+    // ----- Barra de filtros (se crea acá y se coloca arriba de las tarjetas) -----
+    const barra = document.createElement('div');
+    barra.className = 'filtros-barra';
+    barra.innerHTML = `
+        <div class="filtro">
+            <label for="filtro-especie">Especie</label>
+            <select id="filtro-especie">
+                <option value="">Todas</option>
+                <option value="perro">Perro</option>
+                <option value="gato">Gato</option>
+                <option value="otro">Otro</option>
+            </select>
+        </div>
+        <div class="filtro">
+            <label for="filtro-sexo">Sexo</label>
+            <select id="filtro-sexo">
+                <option value="">Todos</option>
+                <option value="hembra">Hembra</option>
+                <option value="macho">Macho</option>
+            </select>
+        </div>
+        <div class="filtro">
+            <label for="filtro-edad">Edad</label>
+            <select id="filtro-edad">
+                <option value="">Todas</option>
+                ${Object.entries(RANGOS_EDAD).map(([clave, rango]) => `<option value="${clave}">${rango.texto}</option>`).join('')}
+            </select>
+        </div>
+        <button type="button" id="filtro-limpiar" class="filtro-limpiar">Limpiar filtros</button>
+        <p id="filtro-resultados" class="filtro-resultados"></p>`;
+    grid.parentNode.insertBefore(barra, grid);
+
+    const filtroEspecie = document.getElementById('filtro-especie');
+    const filtroSexo = document.getElementById('filtro-sexo');
+    const filtroEdad = document.getElementById('filtro-edad');
+    const resumen = document.getElementById('filtro-resultados');
+
+    // Una mascota se muestra solo si cumple TODOS los filtros elegidos
     const filtrar = () => {
         const texto = input ? input.value.toLowerCase().trim() : '';
-        dibujar(mascotas.filter(m =>
-            m.nombre.toLowerCase().includes(texto) ||
-            m.edadysexo.toLowerCase().includes(texto) ||
-            m.especie.toLowerCase().includes(texto)
-        ));
+        const resultado = mascotas.filter(m => {
+            const coincideTexto = !texto ||
+                m.nombre.toLowerCase().includes(texto) ||
+                m.edadysexo.toLowerCase().includes(texto) ||
+                m.especie.toLowerCase().includes(texto);
+            const coincideEspecie = !filtroEspecie.value || m.especie.toLowerCase() === filtroEspecie.value;
+            const coincideSexo = !filtroSexo.value || String(m.sexo).toLowerCase() === filtroSexo.value;
+            let coincideEdad = true;
+            if (filtroEdad.value) {
+                const meses = edadEnMeses(m.edad);
+                const rango = RANGOS_EDAD[filtroEdad.value];
+                coincideEdad = meses !== null && meses >= rango.min && meses < rango.max;
+            }
+            return coincideTexto && coincideEspecie && coincideSexo && coincideEdad;
+        });
+        resumen.textContent = `Mostrando ${resultado.length} de ${mascotas.length} mascotas`;
+        dibujar(resultado);
     };
+
     const busqueda = new URLSearchParams(window.location.search).get('buscar');
     if (busqueda && input) input.value = busqueda;
     input?.addEventListener('input', filtrar);
     boton?.addEventListener('click', filtrar);
+    [filtroEspecie, filtroSexo, filtroEdad].forEach(filtro => filtro.addEventListener('change', filtrar));
+    document.getElementById('filtro-limpiar').addEventListener('click', () => {
+        filtroEspecie.value = '';
+        filtroSexo.value = '';
+        filtroEdad.value = '';
+        if (input) input.value = '';
+        filtrar();
+    });
     filtrar();
 }
 
@@ -322,6 +557,9 @@ async function iniciarPublicar() {
         e.preventDefault();
         boton.disabled = true;
         try {
+            if (edadEnMeses(document.getElementById('edad').value) === null) {
+                throw new Error('Escribí la edad con número y unidad. Por ejemplo: 6 meses o 2 años.');
+            }
             const archivo = archivoInput.files[0];
             let foto = urlInput.value.trim();
             if (archivo) {
@@ -508,7 +746,7 @@ async function iniciarTestimonios() {
             <div class="testimonial-card">
                 ${t.img ? `<img src="${escaparHTML(t.img)}" alt="${escaparHTML(t.mascotaNombre)}">` : '<div class="sin-foto">🐾</div>'}
                 <div class="testimonial-info">
-                    <h4>${escaparHTML(t.mascotaNombre)}</h4><p>${escaparHTML(t.texto)}</p>
+                    <h4>${escaparHTML(t.mascotaNombre)}</h4><p class="testimonial-texto">${escaparHTML(t.texto)}</p>
                     <p class="testimonial-pie">Por ${escaparHTML(t.autorNombre)} · ${formatearFecha(t.fecha)}
                     ${t.esAutor ? `<button class="btn-mini btn-peligro" data-accion="eliminar-testimonio" data-id="${t.id}">Eliminar</button>` : ''}</p>
                 </div>

@@ -39,34 +39,63 @@
     <section class="hero-banner">
         <div class="hero-content">
             <div class="hero-text">
-                <h1>perritos lindos</h1>
-                <p>Te invitamos a que adoptes perritos</p>
-                <a href="https://wa.me/" target="_blank" class="btn-wsp">
-                    <span>💬</span> Contactanos
-                </a>
+                <span class="hero-etiqueta">🐾 Adopción responsable</span>
+                <h1>Perritos lindos que <em>buscan un hogar</em></h1>
+                <p>Te invitamos a adoptar: dale una segunda oportunidad a un amigo de cuatro patas y llená tu casa de cariño.</p>
+                <div class="hero-botones">
+                    <a href="#catalogo" class="btn-hero btn-hero-principal">Ver mascotas</a>
+                    <a href="contacto.html" class="btn-hero btn-hero-secundario">💬 Contactanos</a>
+                </div>
+                <ul class="hero-puntos">
+                    <li>🐶 Perros y gatos</li>
+                    <li>💉 Cuidados al día</li>
+                    <li>❤️ Adopción con amor</li>
+                </ul>
             </div>
             <div class="hero-image">
-                <img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?q=80&w=600" alt="Perritos">
+                <img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?q=80&w=800" alt="Perrito esperando un hogar">
+                <div class="hero-sello"><span>🏠</span> Adoptá, cambiá una vida</div>
             </div>
         </div>
     </section>
 
     <!-- CATÁLOGO DE MASCOTAS: las tarjetas las crea script.js -->
-    <main class="main-container">
+    <main class="main-container" id="catalogo">
+        <div class="seccion-titulo">
+            <span>Conocelos</span>
+            <h2>Mascotas que buscan hogar</h2>
+        </div>
         <div class="pets-grid"></div>
     </main>
 
     <!-- PIE DE PÁGINA -->
-    <footer>
-        <div class="footer-content">
-            <p>Copyright by Fernando Pérez</p>
-            <div class="social-icons">
-                <a href="#">🌐</a>
-                <a href="#">📷</a>
-                <a href="#">🐦</a>
-                <a href="#">▶</a>
+    <footer class="footer-miau">
+        <div class="footer-inner">
+            <div class="footer-marca">
+                <strong>Adopciones MIAU 🐾</strong>
+                <p>Cada patita merece un hogar lleno de cariño.</p>
             </div>
-            <p>Carrera 53a #43 161 Piso 7</p>
+            <div class="footer-mini-grid">
+                <details class="mini">
+                    <summary>🐾 Quiénes somos</summary>
+                    <div class="mini-cuerpo">
+                        <p>Somos una comunidad que conecta mascotas que buscan hogar con personas dispuestas a darles uno. Cualquiera puede publicar una mascota o pedir una adopción de forma simple y segura.</p>
+                    </div>
+                </details>
+                <details class="mini">
+                    <summary>🏠 Cómo adopto</summary>
+                    <div class="mini-cuerpo">
+                        <ol>
+                            <li>Registrate y cargá tu teléfono.</li>
+                            <li>Elegí una mascota del catálogo.</li>
+                            <li>Enviá tu solicitud contando por qué querés adoptarla.</li>
+                            <li>Si te aceptan, verás el contacto de quien la publicó y coordinan la entrega.</li>
+                        </ol>
+                    </div>
+                </details>
+                <a class="mini mini-link" href="perfil.html">👤 Mi perfil</a>
+                <a class="mini mini-link" href="contacto.html">💌 Contactanos</a>
+            </div>
         </div>
     </footer>
 

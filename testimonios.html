@@ -35,15 +35,22 @@
         </div>
     </nav>
 
+    <!-- TÍTULO DE LA PÁGINA -->
+    <section class="pagina-titulo">
+        <span class="kicker">💜 Finales felices</span>
+        <h1>Historias de adopción</h1>
+        <p>Personas reales, mascotas con hogar nuevo. Leé sus experiencias y compartí la tuya.</p>
+    </section>
+
     <!-- CONTENIDO TESTIMONIOS -->
-    <main class="main-container layout-two-cols">
+    <main class="main-container layout-two-cols layout-testimonios">
 
         <!-- Lista de testimonios (Izquierda): la dibuja script.js desde MySQL -->
         <section class="testimonials-list" id="lista-testimonios"></section>
 
         <!-- Formulario rosa (Derecha) -->
-        <section class="pink-form-card">
-            <h2>Te invitamos a que compartas tu testimonio!</h2>
+        <section class="pink-form-card form-testimonio">
+            <h2>¡Compartí tu testimonio!</h2>
             <form id="form-testimonio">
                 <div class="form-group">
                     <label for="testimonio-nombre">Nombre de la mascota*</label>
@@ -68,13 +75,33 @@
     </main>
 
     <!-- PIE DE PÁGINA -->
-    <footer>
-        <div class="footer-content">
-            <p>Copyright by Fernando Pérez</p>
-            <div class="social-icons">
-                <a href="#">🌐</a><a href="#">📷</a><a href="#">🐦</a><a href="#">▶</a>
+    <footer class="footer-miau">
+        <div class="footer-inner">
+            <div class="footer-marca">
+                <strong>Adopciones MIAU 🐾</strong>
+                <p>Cada patita merece un hogar lleno de cariño.</p>
             </div>
-            <p>Carrera 53a #43 161 Piso 7</p>
+            <div class="footer-mini-grid">
+                <details class="mini">
+                    <summary>🐾 Quiénes somos</summary>
+                    <div class="mini-cuerpo">
+                        <p>Somos una comunidad que conecta mascotas que buscan hogar con personas dispuestas a darles uno. Cualquiera puede publicar una mascota o pedir una adopción de forma simple y segura.</p>
+                    </div>
+                </details>
+                <details class="mini">
+                    <summary>🏠 Cómo adopto</summary>
+                    <div class="mini-cuerpo">
+                        <ol>
+                            <li>Registrate y cargá tu teléfono.</li>
+                            <li>Elegí una mascota del catálogo.</li>
+                            <li>Enviá tu solicitud contando por qué querés adoptarla.</li>
+                            <li>Si te aceptan, verás el contacto de quien la publicó y coordinan la entrega.</li>
+                        </ol>
+                    </div>
+                </details>
+                <a class="mini mini-link" href="perfil.html">👤 Mi perfil</a>
+                <a class="mini mini-link" href="contacto.html">💌 Contactanos</a>
+            </div>
         </div>
     </footer>
 

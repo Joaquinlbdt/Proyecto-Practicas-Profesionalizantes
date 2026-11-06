@@ -95,3 +95,16 @@ CREATE TABLE IF NOT EXISTS mensajes_contacto (
     mensaje TEXT NOT NULL,
     fecha_envio TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS notificaciones (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    usuario_id INT UNSIGNED NOT NULL,
+    tipo ENUM('mascota_publicada', 'solicitud_recibida', 'solicitud_aceptada', 'solicitud_rechazada') NOT NULL,
+    mensaje VARCHAR(255) NOT NULL,
+    mascota_id INT UNSIGNED NULL,
+    leida BOOLEAN NOT NULL DEFAULT FALSE,
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+    FOREIGN KEY (mascota_id) REFERENCES mascotas(id) ON DELETE SET NULL,
+    INDEX idx_notificaciones_usuario (usuario_id, leida)
+) ENGINE=InnoDB;
