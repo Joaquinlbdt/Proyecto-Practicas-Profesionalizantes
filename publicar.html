@@ -33,10 +33,17 @@
         </div>
     </nav>
 
+    <section class="pagina-titulo">
+        <span class="kicker">🐾 Dale una oportunidad</span>
+        <h1>Publicar una mascota</h1>
+        <p>Completá los datos y ayudala a encontrar una familia. Te lleva menos de dos minutos.</p>
+    </section>
+
     <main class="main-container">
-        <section class="pink-form-card form-centrado">
-            <h2>Publicar una mascota</h2>
+        <section class="publicar-card">
             <form id="form-publicar">
+
+                <div class="paso"><span class="paso-num">1</span><h3>Datos de la mascota</h3></div>
 
                 <div class="form-group">
                     <label for="nombre">Nombre o raza*</label>
@@ -81,30 +88,38 @@
                     <textarea id="descripcion" rows="4" maxlength="500" placeholder="Contá cómo es su personalidad, si se lleva bien con otros animales, etc." required></textarea>
                 </div>
 
-                <div class="check-group">
-                    <input type="checkbox" id="vacunado">
-                    <label for="vacunado">Tiene sus vacunas al día</label>
-                </div>
-                <div class="check-group">
-                    <input type="checkbox" id="castrado">
-                    <label for="castrado">Está castrado/a</label>
+                <div class="paso"><span class="paso-num">2</span><h3>Cuidados</h3></div>
+
+                <div class="checks-fila">
+                    <div class="check-group">
+                        <input type="checkbox" id="vacunado">
+                        <label for="vacunado">💉 Tiene sus vacunas al día</label>
+                    </div>
+                    <div class="check-group">
+                        <input type="checkbox" id="castrado">
+                        <label for="castrado">✂️ Está castrado/a</label>
+                    </div>
                 </div>
 
+                <div class="paso"><span class="paso-num">3</span><h3>Foto</h3></div>
+
                 <!-- FOTO: se puede subir un archivo O pegar un enlace -->
-                <div class="form-group">
-                    <label for="img-archivo">Foto*: subí un archivo</label>
-                    <input type="file" id="img-archivo" accept="image/*">
+                <div class="zona-foto">
+                    <div class="form-group">
+                        <label for="img-archivo">Subí un archivo*</label>
+                        <input type="file" id="img-archivo" accept="image/*">
+                    </div>
+                    <p class="separador-o">— o —</p>
+                    <div class="form-group">
+                        <label for="img-url">Pegá el enlace (URL) de una foto</label>
+                        <input type="text" id="img-url" placeholder="https://...">
+                    </div>
+                    <p class="ayuda">Si completás las dos opciones, se usa el archivo subido.</p>
                 </div>
-                <p class="separador-o">— o —</p>
-                <div class="form-group">
-                    <label for="img-url">pegá el enlace (URL) de una foto</label>
-                    <input type="text" id="img-url" placeholder="https://...">
-                </div>
-                <p class="ayuda">Si completás las dos opciones, se usa el archivo subido.</p>
 
                 <img id="vista-previa" class="vista-previa" alt="Vista previa de la foto" hidden>
 
-                <button type="submit" class="btn-send" id="btn-publicar">Publicar mascota</button>
+                <button type="submit" class="btn-send btn-contacto" id="btn-publicar">Publicar mascota 🐾</button>
             </form>
         </section>
     </main>
@@ -119,7 +134,7 @@
                 <details class="mini">
                     <summary>🐾 Quiénes somos</summary>
                     <div class="mini-cuerpo">
-                        <p>Somos una comunidad que conecta mascotas que buscan hogar con personas dispuestas a darles uno. Cualquiera puede publicar una mascota o pedir una adopción de forma simple y segura.</p>
+                        <p>Somos un grupo de compañeros que creó esta página con la intención de crear un puente entre la persona que quiere dar en adopción y la persona que quiere adoptar. Pensando a futuro en nuevas mejoras...</p>
                     </div>
                 </details>
                 <details class="mini">

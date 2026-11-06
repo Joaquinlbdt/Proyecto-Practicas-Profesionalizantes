@@ -31,27 +31,32 @@
         </div>
     </nav>
 
-    <!-- CONTENIDO LOGIN -->
     <main class="auth-container">
         <div class="auth-card">
-            <div class="auth-image">
-                <img src="https://images.unsplash.com/photo-1548767797-d8c844163c4c?q=80&w=600" alt="Mascotas">
-            </div>
+            <aside class="auth-lado">
+                <img src="https://images.unsplash.com/photo-1548767797-d8c844163c4c?q=80&w=900" alt="Mascotas">
+                <div class="auth-lado-texto">
+                    <span class="auth-pill">🐾 Adopciones MIAU</span>
+                    <h2>¡Qué alegría verte de nuevo!</h2>
+                    <p>Entrá a tu cuenta para seguir ayudando a que más mascotas encuentren un hogar.</p>
+                    <ul><li>💌 Solicitá adopciones</li><li>🐶 Publicá mascotas</li><li>🔔 Seguí tus notificaciones</li></ul>
+                </div>
+            </aside>
             <div class="auth-form-side">
                 <div class="auth-cat-icon">🐱</div>
+                <h1 class="auth-titulo">Iniciar sesión</h1>
+                <p class="auth-sub">Ingresá con tu correo y tu contraseña.</p>
                 <form action="#" method="POST">
                     <div class="form-group">
-                        <label>Correo</label>
-                        <input type="email" placeholder="ejemplo@correo.com" required>
+                        <label for="login-email">Correo</label>
+                        <input type="email" id="login-email" placeholder="ejemplo@correo.com" required>
                     </div>
                     <div class="form-group">
-                        <label>Contraseña</label>
-                        <input type="password" required>
+                        <label for="login-password">Contraseña</label>
+                        <input type="password" id="login-password" placeholder="Tu contraseña" required>
                     </div>
                     <button type="submit" class="btn-auth-submit">Iniciar sesión</button>
-                    <p style="color: white; font-size: 0.85rem; margin-top: 10px; text-align: center;">
-                        ¿No tienes cuenta? <a href="registro.html" style="color: #fff; font-weight: bold;">Regístrate aquí</a>
-                    </p>
+                    <p class="auth-link">¿No tenés cuenta? <a href="registro.html">Registrate acá</a></p>
                 </form>
             </div>
         </div>
@@ -68,7 +73,7 @@
                 <details class="mini">
                     <summary>🐾 Quiénes somos</summary>
                     <div class="mini-cuerpo">
-                        <p>Somos una comunidad que conecta mascotas que buscan hogar con personas dispuestas a darles uno. Cualquiera puede publicar una mascota o pedir una adopción de forma simple y segura.</p>
+                        <p>Somos un grupo de compañeros que creó esta página con la intención de crear un puente entre la persona que quiere dar en adopción y la persona que quiere adoptar. Pensando a futuro en nuevas mejoras...</p>
                     </div>
                 </details>
                 <details class="mini">

@@ -258,97 +258,6 @@ body {
     width: 100%;
 }
 
-/* --- ESTILOS DE LOGIN Y REGISTRO --- */
-.auth-container {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 40px 20px;
-}
-
-.auth-card {
-    background-color: #ff6b6b;
-    border-radius: 30px;
-    display: flex;
-    max-width: 800px;
-    width: 100%;
-    overflow: hidden;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.15);
-    padding: 25px;
-    gap: 20px;
-    align-items: center;
-}
-
-.auth-image {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.auth-image img {
-    width: 100%;
-    height: 250px;
-    object-fit: cover;
-    border-radius: 20px;
-}
-
-.auth-form-side {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.auth-cat-icon {
-    font-size: 2.5rem;
-    margin-bottom: 10px;
-}
-
-.auth-form-side form {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-}
-
-.auth-form-side label {
-    color: white;
-    font-weight: bold;
-    font-size: 0.9rem;
-    margin-bottom: 4px;
-    display: block;
-    text-align: center;
-}
-
-.auth-form-side input {
-    width: 100%;
-    padding: 8px 12px;
-    border: none;
-    border-radius: 15px;
-    margin-bottom: 12px;
-    outline: none;
-    text-align: center;
-}
-
-.btn-auth-submit {
-    background-color: #6b5b95;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 15px;
-    font-weight: bold;
-    font-size: 1rem;
-    cursor: pointer;
-    margin-top: 10px;
-    align-self: center;
-    transition: background 0.2s;
-}
-
-.btn-auth-submit:hover {
-    background-color: #55477b;
-}
-
 /* =====================================================================
    NUEVOS ESTILOS: detalle de mascota, publicar, perfil y responsive
    (todo lo de arriba es tu CSS original, sin cambios)
@@ -414,45 +323,6 @@ a.pet-card:hover {
 .etiqueta-disponible { background: #d4f5dd; color: #1b6b34; }
 .etiqueta-adoptada { background: #e0e0e0; color: #555; }
 
-/* --- Detalle de la mascota --- */
-.detalle-card {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 30px;
-    background: #fff;
-    padding: 25px;
-    border-radius: 20px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-}
-.detalle-foto img {
-    width: 100%;
-    max-height: 420px;
-    object-fit: cover;
-    border-radius: 15px;
-}
-.detalle-info h1 { color: #6b5b95; margin-bottom: 10px; }
-.detalle-info h3 { margin-top: 15px; margin-bottom: 5px; }
-.detalle-info p { color: #555; line-height: 1.5; }
-.detalle-datos { list-style: none; margin: 15px 0; }
-.detalle-datos li { padding: 6px 0; border-bottom: 1px solid #eee; }
-.publicado-por { margin-top: 15px; font-size: 0.9rem; }
-
-.btn-adoptar {
-    margin-top: 20px;
-    background: #e91e63;
-    color: #fff;
-    border: none;
-    padding: 14px 28px;
-    border-radius: 15px;
-    font-size: 1.1rem;
-    font-weight: bold;
-    cursor: pointer;
-}
-.btn-adoptar:hover:not(:disabled) { background: #c2185b; }
-.btn-adoptar:disabled { background: #bbb; cursor: not-allowed; }
-
-#seccion-solicitud { max-width: 600px; margin: 30px auto 0; }
-
 /* --- Formulario de publicar --- */
 .form-centrado { max-width: 600px; margin: 0 auto; }
 .fila-doble { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
@@ -483,25 +353,6 @@ a.pet-card:hover {
     border-radius: 12px;
     margin-bottom: 15px;
 }
-
-/* --- Perfil --- */
-.perfil-cabecera {
-    background: #fff;
-    border-radius: 20px;
-    padding: 20px 25px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-    margin-bottom: 30px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-.perfil-cabecera h1 { color: #6b5b95; }
-.perfil-cabecera p { color: #666; }
-
-.perfil-seccion { margin-bottom: 35px; }
-.perfil-seccion h2 { color: #6b5b95; margin-bottom: 15px; }
 
 .item-perfil {
     display: flex;
@@ -565,7 +416,6 @@ a.pet-card:hover {
 /* --- Celulares y pantallas chicas --- */
 @media (max-width: 768px) {
     .layout-two-cols, .detalle-card, .fila-doble { grid-template-columns: 1fr; }
-    .auth-card { flex-direction: column; }
     .header-top { padding: 15px 20px; }
     .header-content { flex-direction: column; gap: 10px; text-align: center; }
     .header-right { flex-wrap: wrap; justify-content: center; }
@@ -1028,7 +878,6 @@ a.pet-card:hover {
     margin-top: auto;
     background: #6b5b95;
     color: #fff;
-    border-top: 6px solid #fce881;
     padding: 40px 40px 36px;
 }
 .footer-inner {
@@ -1096,3 +945,391 @@ a.pet-card:hover {
 /* --- Retoques --- */
 .btn-hero-principal { border: 2px solid #6b5b95; }
 .form-testimonio .ayuda { margin: 14px 0 0; text-align: center; }
+
+/* =====================================================================
+   DISEÑO NUEVO 2: detalle de mascota, solicitud, publicar y perfil
+   ===================================================================== */
+
+/* --- Detalle de la mascota --- */
+.volver {
+    display: inline-block;
+    margin-bottom: 18px;
+    color: #6b5b95;
+    font-weight: bold;
+    text-decoration: none;
+}
+.volver:hover { text-decoration: underline; }
+
+.detalle-card {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: 40px;
+    background: #fff;
+    padding: 30px;
+    border-radius: 30px;
+    box-shadow: 0 14px 40px rgba(107, 91, 149, 0.15);
+    overflow: hidden;
+}
+.detalle-foto { position: relative; align-self: start; }
+.detalle-foto::before {
+    content: "";
+    position: absolute;
+    inset: 16px -14px -14px 16px;
+    background: #fce881;
+    border-radius: 26px;
+}
+.detalle-foto img {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 440px;
+    object-fit: cover;
+    border-radius: 26px;
+    border: 5px solid #fff;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
+}
+.detalle-estado { position: absolute; top: 18px; left: 18px; z-index: 1; padding: 6px 16px; font-size: 0.85rem; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); }
+
+.detalle-info { min-width: 0; }
+.detalle-especie {
+    display: inline-block;
+    background: #ede8f7;
+    color: #6b5b95;
+    font-weight: bold;
+    font-size: 0.85rem;
+    padding: 5px 16px;
+    border-radius: 999px;
+    margin-bottom: 10px;
+}
+.detalle-info h1 {
+    font-family: 'Fredoka', 'Comic Sans MS', cursive, sans-serif;
+    font-size: 2.8rem;
+    line-height: 1.1;
+    color: #3d3260;
+    margin-bottom: 16px;
+    overflow-wrap: anywhere;
+}
+.detalle-chips, .detalle-salud { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; }
+.chip {
+    background: #fff8e7;
+    border: 2px solid #fce881;
+    color: #4a3f6b;
+    font-weight: bold;
+    font-size: 0.92rem;
+    padding: 7px 14px;
+    border-radius: 999px;
+}
+.chip-sexo { text-transform: capitalize; }
+.salud { font-weight: bold; font-size: 0.88rem; padding: 6px 14px; border-radius: 12px; }
+.salud-si { background: #d4f5dd; color: #1b6b34; }
+.salud-no { background: #f0f0f0; color: #777; }
+.detalle-info h3 { margin: 20px 0 8px; color: #6b5b95; font-size: 1.1rem; }
+.detalle-desc {
+    background: #f6f3fb;
+    border-radius: 16px;
+    padding: 16px 18px;
+    color: #555;
+    line-height: 1.65;
+    overflow-wrap: anywhere;
+}
+.detalle-publicador { display: flex; align-items: center; gap: 12px; margin: 20px 0 4px; }
+.detalle-publicador small { display: block; color: #888; font-size: 0.78rem; }
+.detalle-publicador strong { color: #3d3260; overflow-wrap: anywhere; }
+.avatar-mini {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #6b5b95;
+    color: #fff;
+    font-weight: bold;
+    font-size: 1.1rem;
+    border-radius: 50%;
+}
+.publicado-por { margin-top: 12px; font-size: 0.9rem; }
+.publicado-por a { color: #6b5b95; font-weight: bold; }
+
+.btn-adoptar {
+    width: 100%;
+    margin-top: 22px;
+    background: linear-gradient(135deg, #e91e63, #ff6b6b);
+    color: #fff;
+    border: none;
+    padding: 17px 28px;
+    border-radius: 16px;
+    font-size: 1.15rem;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(233, 30, 99, 0.35);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.btn-adoptar:hover:not(:disabled) { transform: translateY(-3px); box-shadow: 0 12px 26px rgba(233, 30, 99, 0.45); }
+.btn-adoptar:disabled { background: #c9c9c9; box-shadow: none; cursor: not-allowed; }
+
+/* Formulario de solicitud (reutiliza la tarjeta de contacto) */
+#seccion-solicitud { max-width: 720px; margin: 40px auto 0; scroll-margin-top: 20px; }
+.solicitud-aviso { font-size: 0.88rem; line-height: 1.5; background: rgba(255, 255, 255, 0.18); padding: 12px 16px; border-radius: 12px; margin: 0 0 20px; }
+
+/* --- Publicar mascota --- */
+.publicar-card {
+    max-width: 720px;
+    margin: 0 auto;
+    background: #fff;
+    border-top: 8px solid #ff6b6b;
+    border-radius: 28px;
+    padding: 38px 42px 42px;
+    box-shadow: 0 14px 40px rgba(107, 91, 149, 0.15);
+}
+.paso { display: flex; align-items: center; gap: 12px; margin: 8px 0 18px; }
+.paso:not(:first-child) { margin-top: 30px; padding-top: 24px; border-top: 1px dashed #e3dcf2; }
+.paso-num {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #6b5b95;
+    color: #fff;
+    font-weight: bold;
+    border-radius: 50%;
+}
+.paso h3 { color: #3d3260; font-size: 1.2rem; }
+
+.publicar-card label { display: block; font-weight: bold; font-size: 0.9rem; color: #4a3f6b; margin-bottom: 6px; }
+.publicar-card input[type="text"],
+.publicar-card select,
+.publicar-card textarea {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 1rem;
+    color: #333;
+    background: #fff;
+    border: 2px solid #e6e0f2;
+    border-radius: 14px;
+    margin-bottom: 16px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+.publicar-card input:focus, .publicar-card select:focus, .publicar-card textarea:focus {
+    border-color: #6b5b95;
+    box-shadow: 0 0 0 4px rgba(107, 91, 149, 0.15);
+}
+.publicar-card textarea { resize: vertical; min-height: 110px; }
+
+.checks-fila { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.publicar-card .check-group {
+    margin: 0;
+    background: #f6f3fb;
+    border: 2px solid #e6e0f2;
+    border-radius: 14px;
+    padding: 13px 16px;
+    transition: border-color 0.2s, background 0.2s;
+}
+.publicar-card .check-group:has(input:checked) { background: #fff8e7; border-color: #fce881; }
+.publicar-card .check-group input { width: 20px; height: 20px; margin: 0 10px 0 0; accent-color: #6b5b95; cursor: pointer; }
+.publicar-card .check-group label { margin: 0; cursor: pointer; flex: 1; }
+
+.zona-foto { background: #faf8ff; border: 2px dashed #c9bfe6; border-radius: 18px; padding: 20px; }
+.zona-foto .form-group:last-of-type input { margin-bottom: 4px; }
+.publicar-card input[type="file"] { width: 100%; font-size: 0.9rem; color: #555; margin-bottom: 4px; }
+.publicar-card input[type="file"]::file-selector-button {
+    background: #6b5b95;
+    color: #fff;
+    border: none;
+    padding: 9px 18px;
+    border-radius: 999px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-right: 12px;
+}
+.publicar-card input[type="file"]::file-selector-button:hover { background: #55477b; }
+.publicar-card .separador-o { color: #9a8fc0; margin: 6px 0 10px; }
+.publicar-card .ayuda { color: #777; margin: 8px 0 0; font-size: 0.82rem; }
+.publicar-card .vista-previa { margin: 18px 0 0; max-height: 260px; border: 4px solid #fff; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18); }
+.publicar-card .btn-contacto { margin-top: 26px; }
+
+/* --- Perfil --- */
+.perfil-cabecera {
+    background: linear-gradient(135deg, #6b5b95 0%, #8b78c0 100%);
+    border-radius: 28px;
+    padding: 28px 32px;
+    box-shadow: 0 14px 36px rgba(107, 91, 149, 0.35);
+    margin-bottom: 36px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+.perfil-id { display: flex; align-items: center; gap: 18px; min-width: 0; }
+.perfil-avatar {
+    width: 74px;
+    height: 74px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fce881;
+    color: #4b3f72;
+    font-family: 'Fredoka', 'Comic Sans MS', cursive, sans-serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    border-radius: 50%;
+    border: 4px solid #fff;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+.perfil-cabecera h1 { font-family: 'Fredoka', 'Comic Sans MS', cursive, sans-serif; color: #fff; font-size: 2rem; overflow-wrap: anywhere; }
+.perfil-cabecera p { color: #e7e1f5; overflow-wrap: anywhere; }
+.perfil-cabecera .btn-link { background: #fce881; color: #4b3f72; padding: 12px 20px; font-size: 0.95rem; }
+.perfil-cabecera .btn-link:hover { background: #fbc02d; }
+
+.perfil-seccion { margin-bottom: 40px; }
+.perfil-seccion h2 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #3d3260;
+    font-size: 1.4rem;
+    margin-bottom: 18px;
+    padding-left: 14px;
+    border-left: 6px solid #fce881;
+}
+
+.form-datos {
+    max-width: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px 20px;
+    border-top: 6px solid #ff6b6b;
+    border-radius: 24px;
+    padding: 28px 30px 30px;
+}
+.campo-ancho { grid-column: 1 / -1; }
+.form-datos label { color: #4a3f6b; }
+.form-datos input { border: 2px solid #e6e0f2; padding: 12px 14px; outline: none; transition: border-color 0.2s, box-shadow 0.2s; }
+.form-datos input:focus { border-color: #6b5b95; box-shadow: 0 0 0 4px rgba(107, 91, 149, 0.15); }
+.form-datos-sub { background: #f6f3fb; color: #6b5b95; font-weight: bold; font-size: 0.9rem; padding: 10px 14px; border-radius: 12px; margin: 4px 0 14px; }
+.form-datos .btn-contacto { margin-top: 6px; }
+
+.item-perfil { border-left: 6px solid #fce881; border-radius: 18px; padding: 14px; transition: transform 0.2s, box-shadow 0.2s; }
+.item-perfil:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(107, 91, 149, 0.15); }
+.vacio { border: 2px dashed #d9d0ee; background: #faf8ff; text-align: center; padding: 24px; }
+.vacio a { color: #6b5b95; font-weight: bold; }
+
+@media (max-width: 768px) {
+    .detalle-card { padding: 20px; gap: 30px; }
+    .detalle-foto img { height: 300px; }
+    .detalle-info h1 { font-size: 2.2rem; }
+    .publicar-card { padding: 28px 20px 32px; }
+    .checks-fila { grid-template-columns: 1fr; }
+    .perfil-cabecera { padding: 22px 20px; }
+    .form-datos { grid-template-columns: 1fr; padding: 22px 20px; }
+}
+
+/* =====================================================================
+   DISEÑO NUEVO 3: inicio de sesión y registro
+   ===================================================================== */
+.auth-body { background: linear-gradient(180deg, #fff8e7 0%, #f9f9f9 60%); }
+.auth-container { flex: 1; display: flex; justify-content: center; align-items: center; padding: 50px 20px; }
+
+.auth-card {
+    display: grid;
+    grid-template-columns: 1fr 1.05fr;
+    width: 100%;
+    max-width: 940px;
+    background: #fff;
+    border-radius: 32px;
+    overflow: hidden;
+    box-shadow: 0 22px 55px rgba(107, 91, 149, 0.25);
+}
+
+/* Lado izquierdo: foto con texto */
+.auth-lado { position: relative; min-height: 560px; display: flex; align-items: flex-end; color: #fff; }
+.auth-lado img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.auth-lado::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(75, 63, 114, 0.15) 0%, rgba(75, 63, 114, 0.92) 100%);
+}
+.auth-lado-texto { position: relative; z-index: 1; padding: 34px; }
+.auth-pill {
+    display: inline-block;
+    background: #fce881;
+    color: #4b3f72;
+    font-weight: bold;
+    font-size: 0.85rem;
+    padding: 6px 16px;
+    border-radius: 999px;
+    margin-bottom: 14px;
+}
+.auth-lado h2 { font-family: 'Fredoka', 'Comic Sans MS', cursive, sans-serif; font-size: 2.2rem; line-height: 1.1; margin-bottom: 10px; }
+.auth-lado p { line-height: 1.55; color: #ece7f7; margin-bottom: 14px; }
+.auth-lado ul { list-style: none; display: grid; gap: 6px; font-weight: bold; font-size: 0.95rem; }
+
+/* Lado derecho: formulario */
+.auth-form-side { display: flex; flex-direction: column; justify-content: center; padding: 44px 46px; }
+.auth-cat-icon {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff8e7;
+    border: 3px solid #fce881;
+    border-radius: 50%;
+    font-size: 1.9rem;
+    margin-bottom: 14px;
+}
+.auth-titulo { font-family: 'Fredoka', 'Comic Sans MS', cursive, sans-serif; font-size: 2.3rem; color: #3d3260; line-height: 1.1; }
+.auth-sub { color: #777; margin: 6px 0 24px; }
+.auth-form-side form { width: 100%; display: flex; flex-direction: column; }
+.auth-form-side label { display: block; text-align: left; color: #4a3f6b; font-weight: bold; font-size: 0.9rem; margin-bottom: 6px; }
+.auth-form-side input {
+    width: 100%;
+    padding: 13px 15px;
+    font-size: 1rem;
+    color: #333;
+    text-align: left;
+    background: #fff;
+    border: 2px solid #e6e0f2;
+    border-radius: 14px;
+    margin-bottom: 16px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+.auth-form-side input:focus { border-color: #6b5b95; box-shadow: 0 0 0 4px rgba(107, 91, 149, 0.15); }
+.auth-form-side .fila-doble { gap: 14px; }
+
+.btn-auth-submit {
+    width: 100%;
+    align-self: stretch;
+    margin-top: 6px;
+    padding: 15px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #fff;
+    background: #6b5b95;
+    border: none;
+    border-radius: 16px;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(107, 91, 149, 0.35);
+    transition: background 0.2s, transform 0.2s;
+}
+.btn-auth-submit:hover { background: #55477b; transform: translateY(-2px); }
+.btn-auth-submit:disabled { opacity: 0.6; cursor: wait; }
+.auth-link { text-align: center; color: #777; font-size: 0.92rem; margin-top: 18px; }
+.auth-link a { color: #e91e63; font-weight: bold; text-decoration: none; }
+.auth-link a:hover { text-decoration: underline; }
+
+@media (max-width: 768px) {
+    .auth-container { padding: 30px 16px; }
+    .auth-card { grid-template-columns: 1fr; }
+    .auth-lado { min-height: 230px; }
+    .auth-lado-texto { padding: 24px; }
+    .auth-lado h2 { font-size: 1.7rem; }
+    .auth-lado ul { display: none; }
+    .auth-form-side { padding: 30px 22px; }
+}

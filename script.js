@@ -482,26 +482,44 @@ async function iniciarDetalle() {
         texto = 'Iniciar sesión para adoptar';
     }
 
+    const publicador = mascota.publicadoPorNombre || 'Adopciones MIAU';
+    const claseEstado = adoptada ? 'etiqueta-adoptada' : 'etiqueta-disponible';
+    const salud = (si, texto) => `<span class="salud ${si ? 'salud-si' : 'salud-no'}">${si ? '✓' : '✗'} ${texto}</span>`;
+
     contenedor.innerHTML = `
+        <a href="index.html" class="volver">← Volver al catálogo</a>
         <div class="detalle-card">
-            <div class="detalle-foto"><img src="${escaparHTML(mascota.img)}" alt="${escaparHTML(mascota.nombre)}"></div>
+            <div class="detalle-foto">
+                <img src="${escaparHTML(mascota.img)}" alt="${escaparHTML(mascota.nombre)}">
+                <span class="etiqueta detalle-estado ${claseEstado}">${adoptada ? 'Adoptada' : 'Disponible'}</span>
+            </div>
             <div class="detalle-info">
+                <span class="detalle-especie">${escaparHTML(mascota.especie)}</span>
                 <h1>${escaparHTML(mascota.nombre)}</h1>
-                <span class="etiqueta ${adoptada ? 'etiqueta-adoptada' : 'etiqueta-disponible'}">${adoptada ? 'Adoptada' : 'Disponible'}</span>
-                <ul class="detalle-datos">
-                    <li><strong>Especie:</strong> ${escaparHTML(mascota.especie)}</li>
-                    <li><strong>Edad y sexo:</strong> ${escaparHTML(mascota.edadysexo)}</li>
-                    <li><strong>Tamaño:</strong> ${escaparHTML(mascota.tamano)}</li>
-                    <li><strong>Vacunas al día:</strong> ${mascota.vacunado ? 'Sí' : 'No'}</li>
-                    <li><strong>Castrado/a:</strong> ${mascota.castrado ? 'Sí' : 'No'}</li>
-                </ul>
+                <div class="detalle-chips">
+                    <span class="chip">🎂 ${escaparHTML(mascota.edad)}</span>
+                    <span class="chip chip-sexo">${String(mascota.sexo).toLowerCase() === 'macho' ? '♂️' : '♀️'} ${escaparHTML(mascota.sexo)}</span>
+                    <span class="chip">📏 ${escaparHTML(mascota.tamano)}</span>
+                </div>
+                <div class="detalle-salud">
+                    ${salud(mascota.vacunado, 'Vacunas al día')}
+                    ${salud(mascota.castrado, 'Castrado/a')}
+                </div>
                 <h3>Sobre ${escaparHTML(mascota.nombre)}</h3>
-                <p>${escaparHTML(mascota.descripcion)}</p>
-                <p class="publicado-por">Publicada por: <strong>${escaparHTML(mascota.publicadoPorNombre || 'Adopciones MIAU')}</strong></p>
+                <p class="detalle-desc">${escaparHTML(mascota.descripcion)}</p>
+                <div class="detalle-publicador">
+                    <span class="avatar-mini">${escaparHTML(publicador.charAt(0).toUpperCase())}</span>
+                    <div><small>Publicada por</small><strong>${escaparHTML(publicador)}</strong></div>
+                </div>
                 <button id="btn-solicitar" class="btn-adoptar" ${deshabilitado ? 'disabled' : ''}>${texto}</button>
                 ${yaSolicitada ? '<p class="publicado-por"><a href="perfil.html">Ver el estado de mi solicitud</a></p>' : ''}
             </div>
         </div>`;
+
+    const subtitulo = document.getElementById('solicitud-sub');
+    if (subtitulo) {
+        subtitulo.innerHTML = `Estás por pedir la adopción de <strong>${escaparHTML(mascota.nombre)}</strong>. Contale a quien la publicó por qué serías el hogar ideal.`;
+    }
 
     document.getElementById('btn-solicitar').addEventListener('click', () => {
         if (!exigirLogin('Tenés que iniciar sesión para solicitar una adopción.')) return;
@@ -605,6 +623,7 @@ async function iniciarPerfil() {
     function mostrarDatos() {
         document.getElementById('perfil-nombre').textContent = usuario.username;
         document.getElementById('perfil-email').textContent = usuario.email;
+        document.getElementById('perfil-avatar').textContent = usuario.username.charAt(0).toUpperCase();
         document.getElementById('dato-username').value = usuario.username;
         document.getElementById('dato-email').value = usuario.email;
         document.getElementById('dato-telefono').value = usuario.telefono;

@@ -36,54 +36,63 @@
     <main class="main-container" id="perfil">
 
         <div class="perfil-cabecera">
-            <div>
-                <h1 id="perfil-nombre"></h1>
-                <p id="perfil-email"></p>
+            <div class="perfil-id">
+                <div class="perfil-avatar" id="perfil-avatar">🐾</div>
+                <div>
+                    <h1 id="perfil-nombre"></h1>
+                    <p id="perfil-email"></p>
+                </div>
             </div>
             <a href="publicar.html" class="btn-mini btn-link">+ Publicar una mascota</a>
         </div>
 
         <!-- Mis datos: se pueden modificar cuando quiera -->
         <section class="perfil-seccion">
-            <h2>Mis datos</h2>
+            <h2>👤 Mis datos</h2>
             <div id="aviso-telefono" class="aviso" hidden>
                 ⚠️ Cargá tu teléfono para poder solicitar o publicar mascotas.
             </div>
             <form id="form-datos" class="form-datos">
-                <label for="dato-username">Nombre de usuario</label>
-                <input type="text" id="dato-username" maxlength="30" required>
-
-                <label for="dato-email">Correo (no se puede cambiar)</label>
-                <input type="email" id="dato-email" disabled>
-
-                <label for="dato-telefono">Teléfono / WhatsApp</label>
-                <input type="tel" id="dato-telefono" required>
-
-                <label for="dato-pass-actual">Contraseña actual (solo si querés cambiarla)</label>
-                <input type="password" id="dato-pass-actual">
-
-                <label for="dato-pass-nueva">Nueva contraseña</label>
-                <input type="password" id="dato-pass-nueva">
-
-                <button type="submit" class="btn-send">Guardar cambios</button>
+                <div class="campo">
+                    <label for="dato-username">Nombre de usuario</label>
+                    <input type="text" id="dato-username" maxlength="30" required>
+                </div>
+                <div class="campo">
+                    <label for="dato-telefono">Teléfono / WhatsApp</label>
+                    <input type="tel" id="dato-telefono" required>
+                </div>
+                <div class="campo campo-ancho">
+                    <label for="dato-email">Correo (no se puede cambiar)</label>
+                    <input type="email" id="dato-email" disabled>
+                </div>
+                <p class="form-datos-sub campo-ancho">🔒 Contraseña: completá estos campos solo si querés cambiarla.</p>
+                <div class="campo">
+                    <label for="dato-pass-actual">Contraseña actual</label>
+                    <input type="password" id="dato-pass-actual">
+                </div>
+                <div class="campo">
+                    <label for="dato-pass-nueva">Nueva contraseña</label>
+                    <input type="password" id="dato-pass-nueva">
+                </div>
+                <button type="submit" class="btn-send btn-contacto campo-ancho">Guardar cambios</button>
             </form>
         </section>
 
         <!-- Solicitudes que YO envié para adoptar -->
         <section class="perfil-seccion">
-            <h2>Mis solicitudes de adopción</h2>
+            <h2>📨 Mis solicitudes de adopción</h2>
             <div id="mis-solicitudes"></div>
         </section>
 
         <!-- Solicitudes que otras personas enviaron por MIS mascotas -->
         <section class="perfil-seccion">
-            <h2>Solicitudes recibidas</h2>
+            <h2>💌 Solicitudes recibidas</h2>
             <div id="solicitudes-recibidas"></div>
         </section>
 
         <!-- Mascotas que YO publiqué -->
         <section class="perfil-seccion">
-            <h2>Mis mascotas publicadas</h2>
+            <h2>🐶 Mis mascotas publicadas</h2>
             <div id="mis-publicaciones"></div>
         </section>
 
@@ -99,7 +108,7 @@
                 <details class="mini">
                     <summary>🐾 Quiénes somos</summary>
                     <div class="mini-cuerpo">
-                        <p>Somos una comunidad que conecta mascotas que buscan hogar con personas dispuestas a darles uno. Cualquiera puede publicar una mascota o pedir una adopción de forma simple y segura.</p>
+                        <p>Somos un grupo de compañeros que creó esta página con la intención de crear un puente entre la persona que quiere dar en adopción y la persona que quiere adoptar. Pensando a futuro en nuevas mejoras...</p>
                     </div>
                 </details>
                 <details class="mini">

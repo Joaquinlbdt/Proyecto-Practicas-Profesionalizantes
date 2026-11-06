@@ -31,35 +31,42 @@
         </div>
     </nav>
 
-    <!-- CONTENIDO REGISTRO -->
     <main class="auth-container">
         <div class="auth-card">
-            <div class="auth-image">
-                <img src="https://images.unsplash.com/photo-1548767797-d8c844163c4c?q=80&w=600" alt="Mascotas">
-            </div>
+            <aside class="auth-lado">
+                <img src="https://images.unsplash.com/photo-1548767797-d8c844163c4c?q=80&w=900" alt="Mascotas">
+                <div class="auth-lado-texto">
+                    <span class="auth-pill">🐾 Adopciones MIAU</span>
+                    <h2>Sumate a la comunidad</h2>
+                    <p>Creá tu cuenta gratis y empezá a conectar mascotas con familias que las esperan.</p>
+                    <ul><li>✅ Es gratis y simple</li><li>🏠 Adoptá o dá en adopción</li><li>💜 Ayudás a una mascota</li></ul>
+                </div>
+            </aside>
             <div class="auth-form-side">
                 <div class="auth-cat-icon">🐱</div>
+                <h1 class="auth-titulo">Crear cuenta</h1>
+                <p class="auth-sub">Completá tus datos para registrarte.</p>
                 <form action="#" method="POST">
-                    <div class="form-group">
-                        <label for="reg-username">Nombre de usuario</label>
-                        <input type="text" id="reg-username" required>
+                    <div class="fila-doble">
+                        <div class="form-group">
+                            <label for="reg-username">Nombre de usuario</label>
+                            <input type="text" id="reg-username" placeholder="Tu nombre" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="reg-telefono">Teléfono / WhatsApp</label>
+                            <input type="tel" id="reg-telefono" placeholder="11 2345 6789" required>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="reg-email">Correo</label>
-                        <input type="email" id="reg-email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="reg-telefono">Teléfono / WhatsApp</label>
-                        <input type="tel" id="reg-telefono" placeholder="Ej: 11 2345 6789" required>
+                        <input type="email" id="reg-email" placeholder="ejemplo@correo.com" required>
                     </div>
                     <div class="form-group">
                         <label for="reg-password">Contraseña (mínimo 6 caracteres)</label>
-                        <input type="password" id="reg-password" required>
+                        <input type="password" id="reg-password" placeholder="Mínimo 6 caracteres" required>
                     </div>
                     <button type="submit" class="btn-auth-submit">Registrarse</button>
-                    <p style="color: white; font-size: 0.85rem; margin-top: 10px; text-align: center;">
-                        ¿Ya tienes cuenta? <a href="login.html" style="color: #fff; font-weight: bold;">Inicia sesión aquí</a>
-                    </p>
+                    <p class="auth-link">¿Ya tenés cuenta? <a href="login.html">Iniciá sesión acá</a></p>
                 </form>
             </div>
         </div>
@@ -76,7 +83,7 @@
                 <details class="mini">
                     <summary>🐾 Quiénes somos</summary>
                     <div class="mini-cuerpo">
-                        <p>Somos una comunidad que conecta mascotas que buscan hogar con personas dispuestas a darles uno. Cualquiera puede publicar una mascota o pedir una adopción de forma simple y segura.</p>
+                        <p>Somos un grupo de compañeros que creó esta página con la intención de crear un puente entre la persona que quiere dar en adopción y la persona que quiere adoptar. Pensando a futuro en nuevas mejoras...</p>
                     </div>
                 </details>
                 <details class="mini">
